@@ -15,7 +15,7 @@ typedef struct lista {
 // Inicializar item sem valor.
 item* ItemInit() {
     item* node = malloc(sizeof(item));
-    if (!node) {
+    if (node == NULL) {
         perror("Erro criando node.");
         free(node);
         exit(1);
@@ -39,7 +39,7 @@ item* GetLastItem(lista* list) {
 // Cria uma lista vazia.
 lista* ListaInit() {
     lista* lista = malloc(sizeof(lista));
-    if (!lista) {
+    if (lista == NULL) {
         perror("Erro criando lista.");
         free(lista);
         exit(1);
