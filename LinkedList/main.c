@@ -16,7 +16,7 @@ typedef struct lista {
 item* ItemInit() {
     item* node = malloc(sizeof(item));
     if (node == NULL) {
-        perror("Erro criando node");
+        perror("Erro em malloc() ItemInit()");
         exit(1);
     }
     return node;
@@ -39,7 +39,7 @@ item* GetLastItem(lista* lista) {
 lista* ListaInit() {
     lista* lista = malloc(sizeof(lista));
     if (lista == NULL) {
-        perror("Erro criando lista");
+        perror("Erro em malloc() ListaInit()");
         exit(1);
     };
     lista->primeiro = NULL;
@@ -88,7 +88,7 @@ int ListaPop(lista* lista) {
     item* atual = lista->primeiro;
 
     if (atual == NULL) {
-        perror("Erro em pop lista vazia");
+        perror("Erro em ListaPop() lista vazia");
         exit(1);
     };
 
@@ -112,7 +112,7 @@ int ListaGet(lista* lista, unsigned int n) {
     item* atual = lista->primeiro;
 
     if (atual == NULL) {
-        perror("Erro em get de lista vazia");
+        perror("Erro em ListGet() de lista vazia");
         exit(1);
     }
 
@@ -122,7 +122,7 @@ int ListaGet(lista* lista, unsigned int n) {
     // Se n = 0 retorna o primeiro, etc.
     while (c <= n) {
         if (atual == NULL) {
-            perror("Erro em get fora de índice");
+            perror("Erro em ListaGet() fora de índice");
             exit(1);
         };
         result = atual->dados;
