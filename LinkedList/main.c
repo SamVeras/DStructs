@@ -133,6 +133,18 @@ int ListaGet(lista* lista, unsigned int n) {
     return result;
 };
 
+// Retorna o endereço do primeiro item com o valor da busca.
+item* ListaBusca(lista* lista, int query) {
+    item* atual = lista->primeiro;
+    while (atual != NULL) {
+        if (atual->dados == query)
+            return atual;
+        atual = atual->next;
+    };
+    perror("Erro em ListaBusca() resultado não encontrado");
+    exit(1);
+};
+
 int main() {
     lista* n = ListaInit();
     ListaInsert(n, 31);
