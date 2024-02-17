@@ -52,13 +52,10 @@ void ListaInsert(lista* lista, int valor) {
     novo->next = NULL;
     novo->dados = valor;
 
-    // Lista está vazia
-    if (lista->primeiro == NULL) {
+    if (lista->primeiro == NULL)  // Lista está vazia
         lista->primeiro = novo;
-    } else {
-        item* ultimo = GetLastItem(lista);
-        ultimo->next = novo;
-    };
+    else
+        GetLastItem(lista)->next = novo;
 };
 
 // Printa todos os itens, endereços, etc..
@@ -67,11 +64,10 @@ void ListaPrint(lista* lista) {
     int c = 0;
     printf("----------------\n");
     while (atual != NULL) {
-        printf("Item # %d\n", c);
+        printf("Item # %d\n", c++);
         printf("Valor: %d\n", atual->dados);
         printf("Next:  %p\n\n", atual->next);
         atual = atual->next;
-        c++;
     };
     printf("----------------\n");
 };
@@ -98,6 +94,8 @@ int ListaPop(lista* lista) {
 
     item* proximo = atual->next;
 
+    // Basicamente, queremos ter acesso ao último e ao penúltimo para o que
+    // precisamos fazer
     while (proximo->next != NULL) {
         atual = proximo;
         proximo = atual->next;
