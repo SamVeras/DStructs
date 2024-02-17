@@ -64,11 +64,16 @@ void ListaInsert(lista* lista, int valor) {
 // Printa todos os itens, endereços, etc..
 void ListaPrint(lista* lista) {
     item* atual = lista->primeiro;
+    int c = 0;
+    printf("----------------\n");
     while (atual != NULL) {
+        printf("Item # %d\n", c);
         printf("Valor: %d\n", atual->dados);
         printf("Next:  %p\n\n", atual->next);
         atual = atual->next;
+        c++;
     };
+    printf("----------------\n");
 };
 
 // Destrói lista e todos os itens.
@@ -83,8 +88,25 @@ void ListaDestruct(lista* rip) {
 };
 
 // Retorna e remove o último item da lista.
-int ListaPop(lista* lista){
+int ListaPop(lista* lista) {
+    item* atual = lista->primeiro;
 
+    if (atual == NULL) {
+        perror("Erro em pop lista vazia.");
+        exit(1);
+    };
+
+    item* proximo = atual->next;
+
+    while (proximo->next != NULL) {
+        atual = proximo;
+        proximo = atual->next;
+    };
+
+    int value = proximo->dados;
+    atual->next = NULL;
+    free(proximo);
+    return value;
 };
 
 int main() {
@@ -93,6 +115,8 @@ int main() {
     ListaInsert(n, 41);
     ListaInsert(n, 59);
     ListaInsert(n, 26);
+    ListaPrint(n);
+    ListaPop(n);
     ListaPrint(n);
     ListaDestruct(n);
     return 0;
