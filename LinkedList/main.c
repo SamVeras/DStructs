@@ -23,11 +23,11 @@ item* ItemInit() {
 };
 
 // Retorna o endereço do último item da lista.
-item* GetLastItem(lista* list) {
-    if (list->primeiro == NULL)
+item* GetLastItem(lista* lista) {
+    if (lista->primeiro == NULL)
         return NULL;
 
-    item* address = list->primeiro;
+    item* address = lista->primeiro;
 
     while (address->next != NULL)
         address = address->next;
@@ -47,23 +47,23 @@ lista* ListaInit() {
 };
 
 // Insere um valor em um node novo, no fim da lista.
-void ListaInsert(lista* list, int valor) {
+void ListaInsert(lista* lista, int valor) {
     item* novo = ItemInit();
     novo->next = NULL;
     novo->dados = valor;
 
     // Lista está vazia
-    if (list->primeiro == NULL) {
-        list->primeiro = novo;
+    if (lista->primeiro == NULL) {
+        lista->primeiro = novo;
     } else {
-        item* ultimo = GetLastItem(list);
+        item* ultimo = GetLastItem(lista);
         ultimo->next = novo;
     };
 };
 
 // Printa todos os itens, endereços, etc..
-void ListaPrint(lista* list) {
-    item* address = list->primeiro;
+void ListaPrint(lista* lista) {
+    item* address = lista->primeiro;
     while (address != NULL) {
         printf("Valor: %d\n", address->dados);
         printf("Next:  %p\n\n", address->next);
@@ -82,12 +82,17 @@ void ListaDestruct(lista* rip) {
     free(rip);
 };
 
+// Retorna e remove o último item da lista.
+int ListaPop(lista* lista){
+
+};
+
 int main() {
     lista* n = ListaInit();
-    ListaInsert(n, 25);
-    ListaInsert(n, 15);
-    ListaInsert(n, 35);
-    ListaInsert(n, 2345);
+    ListaInsert(n, 31);
+    ListaInsert(n, 41);
+    ListaInsert(n, 59);
+    ListaInsert(n, 26);
     ListaPrint(n);
     ListaDestruct(n);
     return 0;
