@@ -65,8 +65,9 @@ void ListaPrint(lista* lista) {
     printf("----------------\n");
     while (atual != NULL) {
         printf("Item # %d\n", c++);
-        printf("Valor: %d\n", atual->dados);
-        printf("Next:  %p\n\n", atual->next);
+        printf("Endereço: %p\n", atual);
+        printf("Valor:\t  %d\n", atual->dados);
+        printf("Next:\t  %p\n\n", atual->next);
         atual = atual->next;
     };
     printf("----------------\n");
