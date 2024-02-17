@@ -73,6 +73,7 @@ void ListaPrint(lista* list) {
     };
 };
 
+// Destrói lista e todos os itens.
 void ListaDestruct(lista* rip) {
     item* atual = rip->primeiro;
     while (atual != NULL) {
