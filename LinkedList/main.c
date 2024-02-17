@@ -16,7 +16,7 @@ typedef struct lista {
 item* ItemInit() {
     item* node = malloc(sizeof(item));
     if (node == NULL) {
-        perror("Erro criando node.");
+        perror("Erro criando node");
         exit(1);
     }
     return node;
@@ -39,7 +39,7 @@ item* GetLastItem(lista* lista) {
 lista* ListaInit() {
     lista* lista = malloc(sizeof(lista));
     if (lista == NULL) {
-        perror("Erro criando lista.");
+        perror("Erro criando lista");
         exit(1);
     };
     lista->primeiro = NULL;
@@ -88,7 +88,7 @@ int ListaPop(lista* lista) {
     item* atual = lista->primeiro;
 
     if (atual == NULL) {
-        perror("Erro em pop lista vazia.");
+        perror("Erro em pop lista vazia");
         exit(1);
     };
 
@@ -107,6 +107,31 @@ int ListaPop(lista* lista) {
     return value;
 };
 
+// Retornar valor guardado no enésimo lugar da sequência.
+int ListaGet(lista* lista, unsigned int n) {
+    item* atual = lista->primeiro;
+
+    if (atual == NULL) {
+        perror("Erro em get de lista vazia");
+        exit(1);
+    }
+
+    unsigned int c = 0;
+    int result = 0;
+
+    // Se n = 0 retorna o primeiro, etc.
+    while (c <= n) {
+        if (atual == NULL) {
+            perror("Erro em get fora de índice");
+            exit(1);
+        };
+        result = atual->dados;
+        atual = atual->next;
+        c++;
+    };
+    return result;
+};
+
 int main() {
     lista* n = ListaInit();
     ListaInsert(n, 31);
@@ -114,8 +139,8 @@ int main() {
     ListaInsert(n, 59);
     ListaInsert(n, 26);
     ListaPrint(n);
-    ListaPop(n);
-    ListaPrint(n);
+    int x = ListaGet(n, 2);
+    printf("%d\n", x);
     ListaDestruct(n);
     return 0;
 };
