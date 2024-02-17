@@ -17,7 +17,6 @@ item* ItemInit() {
     item* node = malloc(sizeof(item));
     if (node == NULL) {
         perror("Erro criando node.");
-        free(node);
         exit(1);
     }
     return node;
@@ -41,7 +40,6 @@ lista* ListaInit() {
     lista* lista = malloc(sizeof(lista));
     if (lista == NULL) {
         perror("Erro criando lista.");
-        free(lista);
         exit(1);
     };
     lista->primeiro = NULL;
