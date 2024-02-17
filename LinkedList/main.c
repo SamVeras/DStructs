@@ -27,12 +27,12 @@ item* GetLastItem(lista* lista) {
     if (lista->primeiro == NULL)
         return NULL;
 
-    item* address = lista->primeiro;
+    item* atual = lista->primeiro;
 
-    while (address->next != NULL)
-        address = address->next;
+    while (atual->next != NULL)
+        atual = atual->next;
 
-    return address;
+    return atual;
 };
 
 // Cria uma lista vazia.
@@ -63,11 +63,11 @@ void ListaInsert(lista* lista, int valor) {
 
 // Printa todos os itens, endereços, etc..
 void ListaPrint(lista* lista) {
-    item* address = lista->primeiro;
-    while (address != NULL) {
-        printf("Valor: %d\n", address->dados);
-        printf("Next:  %p\n\n", address->next);
-        address = address->next;
+    item* atual = lista->primeiro;
+    while (atual != NULL) {
+        printf("Valor: %d\n", atual->dados);
+        printf("Next:  %p\n\n", atual->next);
+        atual = atual->next;
     };
 };
 
