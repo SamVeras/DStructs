@@ -2,101 +2,97 @@
 #include <stdlib.h>
 
 // nó, node, elemento, sei la
-typedef struct item {
-    int dados;
-    struct item* next;
-} item;
+typedef struct LinkedItem {
+    int data;
+    struct LinkedItem* next;
+} LinkedItem;
 
 // A lista sempre tem o endereço do primeiro item, ou NULL.
-typedef struct lista {
-    item* primeiro;
-} lista;
+typedef struct LinkedList {
+    LinkedItem* head;
+} LinkedList;
 
 // Inicializar item sem valor.
-item* ItemInit() {
-    item* node = malloc(sizeof(item));
-    if (node == NULL) {
-        perror("Erro em malloc() ItemInit()");
-        exit(1);
-    }
+LinkedItem* linked_item_init() {
+    LinkedItem* node = malloc(sizeof(LinkedItem));
+    if (node == NULL)
+        perror("Erro em malloc() linked_item_init()"), exit(1);
+
     return node;
 };
 
-// Retorna o endereço do último item da lista.
-item* GetLastItem(lista* lista) {
-    if (lista->primeiro == NULL)
-        return NULL;
-
-    item* atual = lista->primeiro;
-
-    while (atual->next != NULL)
-        atual = atual->next;
-
-    return atual;
-};
-
 // Cria uma lista vazia.
-lista* ListaInit() {
-    lista* lista = malloc(sizeof(lista));
-    if (lista == NULL) {
-        perror("Erro em malloc() ListaInit()");
-        exit(1);
-    };
-    lista->primeiro = NULL;
+LinkedList* linked_list_init() {
+    LinkedList* lista = malloc(sizeof(lista));
+    if (lista == NULL)
+        perror("Erro em malloc() linked_list_init()"), exit(1);
+
+    lista->head = NULL;
     return lista;
 };
 
-// Insere um valor em um node novo, no fim da lista.
-void ListaInsert(lista* lista, int valor) {
-    item* novo = ItemInit();
-    novo->next = NULL;
-    novo->dados = valor;
+// Retorna o endereço do último item da lista.
+LinkedItem* linked_list_get_last(LinkedList* list) {
+    if (list->head == NULL)
+        return NULL;
 
-    if (lista->primeiro == NULL)  // Lista está vazia
-        lista->primeiro = novo;
+    LinkedItem* current = list->head;
+
+    while (current->next != NULL)
+        current = current->next;
+
+    return current;
+};
+
+// Insere um valor em um node novo, no fim da lista.
+void linked_list_insert(LinkedList* lista, int valor) {
+    LinkedItem* new_item = linked_item_init();
+    new_item->next = NULL;
+    new_item->data = valor;
+
+    if (lista->head == NULL)  // Lista está vazia
+        lista->head = new_item;
     else
-        GetLastItem(lista)->next = novo;
+        linked_list_get_last(lista)->next = new_item;
 };
 
 // Printa todos os itens, endereços, etc..
-void ListaPrint(lista* lista) {
-    item* atual = lista->primeiro;
+void linked_list_show(LinkedList* lista) {
+    LinkedItem* current = lista->head;
     int c = 0;
     printf("----------------\n");
-    while (atual != NULL) {
+    while (current != NULL) {
         printf("Item # %d\n", c++);
-        printf("Endereço: %p\n", atual);
-        printf("Valor:\t  %d\n", atual->dados);
-        printf("Next:\t  %p\n\n", atual->next);
-        atual = atual->next;
+        printf("Endereço: %p\n", current);
+        printf("Valor:\t  %d\n", current->data);
+        printf("Next:\t  %p\n\n", current->next);
+        current = current->next;
     };
     printf("----------------\n");
 };
 
 // Destrói lista e todos os itens.
-void ListaDestruct(lista* rip) {
-    item* atual = rip->primeiro;
-    while (atual != NULL) {
-        item* marked = atual->next;
-        free(atual);
-        atual = marked;
+void linked_list_destroy(LinkedList* rip) {
+    LinkedItem* current = rip->head;
+    while (current != NULL) {
+        LinkedItem* marked = current->next;
+        free(current);
+        current = marked;
     };
     free(rip);
 };
 
-// Retorna e remove o último item da lista.
-int ListaPop(lista* lista) {
-    if (lista->primeiro) {
-        perror("Erro em ListaPop() lista vazia");
-        exit(1);
-    };
+// Remove e retorna o último item da lista.
+int linked_list_remove_last(LinkedList* lista) {
+    if (lista->head)
+        perror("Erro em linked_list_remove_last() lista vazia"), exit(1);
 
-    item* atual = lista->primeiro;
-    item* proximo = atual->next;
+    LinkedItem* atual = lista->head;
+    LinkedItem* proximo = atual->next;
 
     if (proximo == NULL) {  // Lista com apenas 1 item
-        int value = atual->dados;
-        lista->primeiro = NULL;
+        int value = atual->data;
+        lista->head = NULL;
         free(atual);
         return value;
     };
@@ -106,77 +102,78 @@ int ListaPop(lista* lista) {
         proximo = atual->next;
     };
 
-    int value = proximo->dados;
+    int value = proximo->data;
     atual->next = NULL;
     free(proximo);
     return value;
 };
 
-// Retornar valor guardado no enésimo lugar da sequência.
-int ListaGet(lista* lista, unsigned int n) {
-    if (lista->primeiro == NULL) {
-        perror("Erro em ListGet() de lista vazia");
-        exit(1);
-    }
+// Remove e retorna o primeiro item da lista.
+int linked_list_remove_first(LinkedList* list) {
+    if (list->head == NULL)
+        perror("Erro em linked_list_remove_first() lista vazia"), exit(1);
 
-    item* atual = lista->primeiro;
+    LinkedItem* head = list->head;
+    int value = head->data;
+    list->head = head->next;
+    free(head);
+    return value;
+};
+
+// Retornar valor guardado no enésimo lugar da sequência.
+int linked_list_item_at(LinkedList* list, unsigned int n) {
+    if (list->head == NULL)
+        perror("Erro em linked_list_item_at() de lista vazia"), exit(1);
+
+    LinkedItem* current = list->head;
     unsigned int c = 0;
     int result = 0;
 
     while (c <= n) {  // Se n = 0 retorna o primeiro, etc.
-        if (atual == NULL) {
-            perror("Erro em ListaGet() fora de índice");
-            exit(1);
-        };
-        result = atual->dados;
-        atual = atual->next;
+        if (current == NULL)
+            perror("Erro em linked_list_item_at() fora de índice"), exit(1);
+
+        result = current->data;
+        current = current->next;
         c++;
     };
     return result;
 };
 
 // Retorna o endereço do primeiro item com o valor da busca.
-item* ListaBusca(lista* lista, int query) {
-    item* atual = lista->primeiro;
-    while (atual != NULL) {
-        if (atual->dados == query)
-            return atual;
-        atual = atual->next;
-    };
-    perror("Erro em ListaBusca() resultado não encontrado");
-    exit(1);
+LinkedItem* linked_list_find(LinkedList* lista, int query) {
+    LinkedItem* current = lista->head;
+    while (current != NULL) {
+        if (current->data == query)
+            return current;
+        current = current->next;
+    }
+    perror("Erro em linked_list_find() resultado não encontrado"), exit(1);
 };
 
-int ListaPopFront(lista* lista) {
-    if (lista->primeiro == NULL) {
-        perror("Erro em ListaPopFront() lista vazia");
-        exit(1);
-    };
-
-    item* head = lista->primeiro;
-    int value = head->dados;
-    lista->primeiro = head->next;
-    free(head);
-    return value;
-};
-
-void ListaClean(lista* lista) {
-    if (lista->primeiro == NULL)
+// Remove todos os itens da lista.
+void linked_list_empty(LinkedList* lista) {
+    if (lista->head == NULL)
         return;
-    while (lista->primeiro != NULL) {
-        ListaPopFront(lista);
+    while (lista->head != NULL) {
+        linked_list_remove_first(lista);
     }
 };
 
 int main() {
-    lista* n = ListaInit();
-    ListaInsert(n, 31);
-    ListaInsert(n, 41);
-    ListaInsert(n, 59);
-    ListaInsert(n, 26);
-    ListaPrint(n);
-    int x = ListaGet(n, 2);
-    printf("%d\n", x);
-    ListaDestruct(n);
+    LinkedList* n = linked_list_init();
+    linked_list_insert(n, 31);
+    linked_list_insert(n, 3457);
+    linked_list_insert(n, 2334894);
+    linked_list_show(n);
+    printf("%d\n", linked_list_remove_first(n));
+    linked_list_insert(n, 23487);
+    linked_list_insert(n, 22);
+    linked_list_insert(n, 31);
+    linked_list_show(n);
+    linked_list_empty(n);
+    linked_list_insert(n, 1);
+    linked_list_show(n);
+    linked_list_destroy(n);
     return 0;
 };
