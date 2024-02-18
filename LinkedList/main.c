@@ -149,6 +149,27 @@ item* ListaBusca(lista* lista, int query) {
     exit(1);
 };
 
+int ListaPopFront(lista* lista) {
+    if (lista->primeiro == NULL) {
+        perror("Erro em ListaPopFront() lista vazia");
+        exit(1);
+    };
+
+    item* head = lista->primeiro;
+    int value = head->dados;
+    lista->primeiro = head->next;
+    free(head);
+    return value;
+};
+
+void ListaClean(lista* lista) {
+    if (lista->primeiro == NULL)
+        return;
+    while (lista->primeiro != NULL) {
+        ListaPopFront(lista);
+    }
+};
+
 int main() {
     lista* n = ListaInit();
     ListaInsert(n, 31);
