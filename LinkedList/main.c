@@ -114,18 +114,16 @@ int ListaPop(lista* lista) {
 
 // Retornar valor guardado no enésimo lugar da sequência.
 int ListaGet(lista* lista, unsigned int n) {
-    item* atual = lista->primeiro;
-
-    if (atual == NULL) {
+    if (lista->primeiro == NULL) {
         perror("Erro em ListGet() de lista vazia");
         exit(1);
     }
 
+    item* atual = lista->primeiro;
     unsigned int c = 0;
     int result = 0;
 
-    // Se n = 0 retorna o primeiro, etc.
-    while (c <= n) {
+    while (c <= n) {  // Se n = 0 retorna o primeiro, etc.
         if (atual == NULL) {
             perror("Erro em ListaGet() fora de índice");
             exit(1);
