@@ -86,19 +86,23 @@ void ListaDestruct(lista* rip) {
 
 // Retorna e remove o último item da lista.
 int ListaPop(lista* lista) {
-    item* atual = lista->primeiro;
-
-    if (atual == NULL) {
+    if (lista->primeiro) {
         perror("Erro em ListaPop() lista vazia");
         exit(1);
     };
 
+    item* atual = lista->primeiro;
     item* proximo = atual->next;
 
-    // Basicamente, queremos ter acesso ao último e ao penúltimo para o que
-    // precisamos fazer
-    while (proximo->next != NULL) {
-        atual = proximo;
+    if (proximo == NULL) {  // Lista com apenas 1 item
+        int value = atual->dados;
+        lista->primeiro = NULL;
+        free(atual);
+        return value;
+    };
+
+    while (proximo->next != NULL) {  // Basicamente, queremos ter acesso
+        atual = proximo;             // ao último e penúltimo itens
         proximo = atual->next;
     };
 
