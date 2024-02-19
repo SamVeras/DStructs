@@ -160,6 +160,19 @@ void linked_list_empty(LinkedList* lista) {
     }
 };
 
+// Retorna a quantidade de itens na lista.
+int linked_list_size(LinkedList* lista) {
+    LinkedItem* current = lista->head;
+    if (current->next == NULL)
+        return 0;
+    unsigned int counter = 1;
+    while (current->next != NULL) {
+        counter++;
+        current = current->next;
+    }
+    return counter;
+};
+
 int main() {
     LinkedList* n = linked_list_init();
     linked_list_insert(n, 31);
