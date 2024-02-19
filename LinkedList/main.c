@@ -23,12 +23,12 @@ LinkedItem* linked_item_init() {
 
 // Cria uma lista vazia.
 LinkedList* linked_list_init() {
-    LinkedList* lista = malloc(sizeof(lista));
-    if (lista == NULL)
+    LinkedList* list = malloc(sizeof(LinkedList));
+    if (list == NULL)
         perror("Erro em malloc() linked_list_init()"), exit(1);
 
-    lista->head = NULL;
-    return lista;
+    list->head = NULL;
+    return list;
 };
 
 // Retorna o endereço do último item da lista.
@@ -141,8 +141,8 @@ int linked_list_item_at(LinkedList* list, unsigned int n) {
 };
 
 // Retorna o endereço do primeiro item com o valor da busca.
-LinkedItem* linked_list_find(LinkedList* lista, int query) {
-    LinkedItem* current = lista->head;
+LinkedItem* linked_list_find(LinkedList* list, int query) {
+    LinkedItem* current = list->head;
     while (current != NULL) {
         if (current->data == query)
             return current;
@@ -152,17 +152,17 @@ LinkedItem* linked_list_find(LinkedList* lista, int query) {
 };
 
 // Remove todos os itens da lista.
-void linked_list_empty(LinkedList* lista) {
-    if (lista->head == NULL)
+void linked_list_empty(LinkedList* list) {
+    if (list->head == NULL)
         return;
-    while (lista->head != NULL) {
-        linked_list_remove_first(lista);
+    while (list->head != NULL) {
+        linked_list_remove_first(list);
     }
 };
 
 // Retorna a quantidade de itens na lista.
-int linked_list_size(LinkedList* lista) {
-    LinkedItem* current = lista->head;
+int linked_list_size(LinkedList* list) {
+    LinkedItem* current = list->head;
     if (current->next == NULL)
         return 0;
     unsigned int counter = 1;
