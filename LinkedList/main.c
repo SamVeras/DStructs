@@ -45,20 +45,20 @@ LinkedItem* linked_list_get_last(LinkedList* list) {
 };
 
 // Insere um valor em um node novo, no fim da lista.
-void linked_list_insert(LinkedList* lista, int valor) {
+void linked_list_insert(LinkedList* list, int value) {
     LinkedItem* new_item = linked_item_init();
     new_item->next = NULL;
-    new_item->data = valor;
+    new_item->data = value;
 
-    if (lista->head == NULL)  // Lista está vazia
-        lista->head = new_item;
+    if (list->head == NULL)  // Lista está vazia
+        list->head = new_item;
     else
-        linked_list_get_last(lista)->next = new_item;
+        linked_list_get_last(list)->next = new_item;
 };
 
 // Printa todos os itens, endereços, etc..
-void linked_list_show(LinkedList* lista) {
-    LinkedItem* current = lista->head;
+void linked_list_show(LinkedList* list) {
+    LinkedItem* current = list->head;
     int c = 0;
     printf("----------------\n");
     while (current != NULL) {
@@ -83,28 +83,28 @@ void linked_list_destroy(LinkedList* rip) {
 };
 
 // Remove e retorna o último item da lista.
-int linked_list_remove_last(LinkedList* lista) {
-    if (lista->head)
+int linked_list_remove_last(LinkedList* list) {
+    if (list->head)
         perror("Erro em linked_list_remove_last() lista vazia"), exit(1);
 
-    LinkedItem* atual = lista->head;
-    LinkedItem* proximo = atual->next;
+    LinkedItem* current = list->head;
+    LinkedItem* next = current->next;
 
-    if (proximo == NULL) {  // Lista com apenas 1 item
-        int value = atual->data;
-        lista->head = NULL;
-        free(atual);
+    if (next == NULL) {  // Lista com apenas 1 item
+        int value = current->data;
+        list->head = NULL;
+        free(current);
         return value;
     };
 
-    while (proximo->next != NULL) {  // Basicamente, queremos ter acesso
-        atual = proximo;             // ao último e penúltimo itens
-        proximo = atual->next;
+    while (next->next != NULL) {  // Basicamente, queremos ter acesso
+        current = next;           // ao último e penúltimo itens
+        next = current->next;
     };
 
-    int value = proximo->data;
-    atual->next = NULL;
-    free(proximo);
+    int value = next->data;
+    current->next = NULL;
+    free(next);
     return value;
 };
 
