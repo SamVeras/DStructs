@@ -44,6 +44,12 @@ LinkedItem* linked_list_get_last(LinkedList* list) {
     return current;
 };
 
+// Poderíamos considerar modificar o struct LinkedList para adicionar um pointer
+// para o fim da lista, atualizando sempre que inserimos um novo item. No caso
+// de uma singly-linked list, isso só será útil para agilizar o processo de
+// conseguir o endereço do fim da lista, mas para doubly-linked, talvez tenha
+// melhores usos.
+
 // Insere um valor em um node novo, no fim da lista.
 void linked_list_insert(LinkedList* list, int value) {
     LinkedItem* new_item = linked_item_init();
