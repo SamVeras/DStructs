@@ -179,6 +179,40 @@ int linked_list_size(LinkedList* list) {
     return counter;
 };
 
+// Retorna o endereço do menor item da lista.
+LinkedItem* linked_list_min(LinkedList* list) {
+    LinkedItem* current = list->head;
+    if (current == NULL)
+        return NULL;
+
+    LinkedItem* min = current;
+
+    while (current->next != NULL) {
+        current = current->next;
+        if (current->data < min->data)
+            min = current;
+    };
+
+    return min;
+}
+
+// Retorna o endereço do maior item da lista.
+LinkedItem* linked_list_max(LinkedList* list) {
+    LinkedItem* current = list->head;
+    if (current == NULL)
+        return NULL;
+
+    LinkedItem* min = current;
+
+    while (current->next != NULL) {
+        current = current->next;
+        if (current->data < min->data)
+            min = current;
+    };
+
+    return min;
+}
+
 int main() {
     LinkedList* n = linked_list_init();
     linked_list_insert(n, 31);
