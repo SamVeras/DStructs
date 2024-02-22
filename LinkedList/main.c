@@ -19,7 +19,7 @@ LinkedItem* linked_item_init() {
         perror("Erro em malloc() linked_item_init()"), exit(1);
     node->next = NULL;
     return node;
-};
+}
 
 // Cria uma lista vazia.
 LinkedList* linked_list_init() {
@@ -29,7 +29,7 @@ LinkedList* linked_list_init() {
 
     list->head = NULL;
     return list;
-};
+}
 
 // Retorna o endereço do último item da lista.
 LinkedItem* linked_list_get_last(LinkedList* list) {
@@ -42,7 +42,7 @@ LinkedItem* linked_list_get_last(LinkedList* list) {
         current = current->next;
 
     return current;
-};
+}
 
 // Poderíamos considerar modificar o struct LinkedList para adicionar um pointer
 // para o fim da lista, atualizando sempre que inserimos um novo item. No caso
@@ -59,7 +59,7 @@ void linked_list_append(LinkedList* list, int value) {
         list->head = new_item;
     else
         linked_list_get_last(list)->next = new_item;
-};
+}
 
 // Insere um valor em um node novo, no início da lista.
 void linked_list_prepend(LinkedList* list, int value) {
@@ -85,9 +85,9 @@ void linked_list_show(LinkedList* list) {
         printf("Valor:\t  %d\n", current->data);
         printf("Next:\t  %d\n\n", current->next);
         current = current->next;
-    };
+    }
     printf("----------------\n");
-};
+}
 
 // Destrói lista e todos os itens.
 void linked_list_destroy(LinkedList* rip) {
@@ -96,9 +96,9 @@ void linked_list_destroy(LinkedList* rip) {
         LinkedItem* marked = current->next;
         free(current);
         current = marked;
-    };
+    }
     free(rip);
-};
+}
 
 // Remove e retorna o último item da lista.
 int linked_list_remove_last(LinkedList* list) {
@@ -113,18 +113,18 @@ int linked_list_remove_last(LinkedList* list) {
         list->head = NULL;
         free(current);
         return value;
-    };
+    }
 
     while (next->next != NULL) {  // Basicamente, queremos ter acesso
         current = next;           // ao último e penúltimo itens
         next = current->next;
-    };
+    }
 
     int value = next->data;
     current->next = NULL;
     free(next);
     return value;
-};
+}
 
 // Remove e retorna o primeiro item da lista.
 int linked_list_remove_first(LinkedList* list) {
@@ -136,7 +136,7 @@ int linked_list_remove_first(LinkedList* list) {
     list->head = head->next;
     free(head);
     return value;
-};
+}
 
 // Retornar valor guardado no enésimo lugar da sequência.
 int linked_list_item_at(LinkedList* list, unsigned int n) {
@@ -154,9 +154,9 @@ int linked_list_item_at(LinkedList* list, unsigned int n) {
         result = current->data;
         current = current->next;
         c++;
-    };
+    }
     return result;
-};
+}
 
 // Retorna o endereço do primeiro item com o valor da busca.
 LinkedItem* linked_list_find(LinkedList* list, int query) {
@@ -167,7 +167,7 @@ LinkedItem* linked_list_find(LinkedList* list, int query) {
         current = current->next;
     }
     perror("Erro em linked_list_find() resultado não encontrado"), exit(1);
-};
+}
 
 // Remove todos os itens da lista.
 void linked_list_empty(LinkedList* list) {
@@ -176,7 +176,7 @@ void linked_list_empty(LinkedList* list) {
     while (list->head != NULL) {
         linked_list_remove_first(list);
     }
-};
+}
 
 // Retorna a quantidade de itens na lista.
 int linked_list_size(LinkedList* list) {
@@ -189,7 +189,7 @@ int linked_list_size(LinkedList* list) {
         current = current->next;
     }
     return counter;
-};
+}
 
 // Retorna o endereço do menor item da lista.
 LinkedItem* linked_list_min(LinkedList* list) {
@@ -203,7 +203,7 @@ LinkedItem* linked_list_min(LinkedList* list) {
         current = current->next;
         if (current->data < min->data)
             min = current;
-    };
+    }
 
     return min;
 }
@@ -220,19 +220,20 @@ LinkedItem* linked_list_max(LinkedList* list) {
         current = current->next;
         if (current->data < min->data)
             min = current;
-    };
+    }
 
     return min;
 }
 
 int linked_list_count(LinkedList* list, int query) {
     LinkedItem* current = list->head;
-    int count = 0;
+    unsigned int count = 0;
     while (current != NULL) {
         if (current->data == query)
             count++;
         current = current->next;
-    };
+    }
+
     return count;
 }
 
