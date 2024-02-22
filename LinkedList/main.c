@@ -69,9 +69,9 @@ void linked_list_show(LinkedList* list) {
     printf("----------------\n");
     while (current != NULL) {
         printf("Item # %d\n", c++);
-        printf("Endereço: %p\n", current);
+        printf("Endereço: %d / %p\n", current);
         printf("Valor:\t  %d\n", current->data);
-        printf("Next:\t  %p\n\n", current->next);
+        printf("Next:\t  %d\n\n", current->next);
         current = current->next;
     };
     printf("----------------\n");
