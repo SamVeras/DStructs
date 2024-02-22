@@ -213,6 +213,17 @@ LinkedItem* linked_list_max(LinkedList* list) {
     return min;
 }
 
+int linked_list_count(LinkedList* list, int query) {
+    LinkedItem* current = list->head;
+    int count = 0;
+    while (current != NULL) {
+        if (current->data == query)
+            count++;
+        current = current->next;
+    };
+    return count;
+}
+
 int main() {
     LinkedList* n = linked_list_init();
     linked_list_insert(n, 31);
