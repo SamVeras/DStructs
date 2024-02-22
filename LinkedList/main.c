@@ -17,7 +17,7 @@ LinkedItem* linked_item_init() {
     LinkedItem* node = malloc(sizeof(LinkedItem));
     if (node == NULL)
         perror("Erro em malloc() linked_item_init()"), exit(1);
-
+    node->next = NULL;
     return node;
 };
 
@@ -51,9 +51,8 @@ LinkedItem* linked_list_get_last(LinkedList* list) {
 // melhores usos.
 
 // Insere um valor em um node novo, no fim da lista.
-void linked_list_insert(LinkedList* list, int value) {
+void linked_list_append(LinkedList* list, int value) {
     LinkedItem* new_item = linked_item_init();
-    new_item->next = NULL;
     new_item->data = value;
 
     if (list->head == NULL)  // Lista está vazia
@@ -61,6 +60,19 @@ void linked_list_insert(LinkedList* list, int value) {
     else
         linked_list_get_last(list)->next = new_item;
 };
+
+// Insere um valor em um node novo, no início da lista.
+void linked_list_prepend(LinkedList* list, int value) {
+    LinkedItem* new_item = linked_item_init();
+    new_item->data = value;
+
+    if (list->head == NULL)  // Lista está vazia
+        list->head = new_item;
+    else {
+        new_item->next = list->head;
+        list->head = new_item;
+    }
+}
 
 // Printa todos os itens, endereços, etc..
 void linked_list_show(LinkedList* list) {
