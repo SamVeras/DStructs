@@ -237,6 +237,18 @@ int linked_list_count(LinkedList* list, int query) {
     return count;
 }
 
+LinkedList* linked_list_copy(LinkedList* list) {
+    LinkedList* new_list = linked_list_init();
+    LinkedItem* current = list->head;
+
+    while (current != NULL) {
+        linked_list_append(new_list, current->data);
+        current = current->next;
+    }
+
+    return new_list;
+}
+
 int main() {
     LinkedList* n = linked_list_init();
     linked_list_insert(n, 31);
