@@ -78,15 +78,13 @@ void linked_list_prepend(LinkedList* list, int value) {
 void linked_list_show(LinkedList* list) {
     LinkedItem* current = list->head;
     int c = 0;
-    printf("----------------\n");
+
     while (current != NULL) {
-        printf("Item # %d\n", c++);
-        printf("Endereço: %d / %p\n", current);
-        printf("Valor:\t  %d\n", current->data);
-        printf("Next:\t  %d\n\n", current->next);
+        printf("%d [%p]\n", c++, current);
+        printf("Valor:\t %d\n", current->data);
+        printf("Próximo: %p\n\n", current->next);
         current = current->next;
     }
-    printf("----------------\n");
 }
 
 // Destrói lista e todos os itens.
