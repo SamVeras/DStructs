@@ -73,4 +73,22 @@ const int int_array_get(IntArray* array, unsigned int index) {
 
 // Insere o valor no índice específicado, sem substituição
 void int_array_insert(IntArray* array, unsigned int index, int val) {
+const void int_array_show(IntArray* array) {
+    for (unsigned int i = 0; i < array->used; i++)
+        printf("[%d]", array->data[i]);
+    printf("\n");
+}
+
+// Visualização do array com detalhes
+const void int_array_status(IntArray* array) {
+    printf("Size: %d  Used: %d\n", array->max_size, array->used);
+    for (unsigned int i = 0; i < array->used; i++)
+        printf("[%d]", array->data[i]);
+    printf("\nAddress: %p\nData address: %p\n", array, array->data);
+    printf("\n");
+}
+
+int main() {
+
+    return 0;
 }
