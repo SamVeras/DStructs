@@ -35,7 +35,7 @@ void linked_list_destroy(LinkedList* rip) {
 }
 
 // Printa todos os itens, endereços, etc..
-void linked_list_show(LinkedList* list) {
+void linked_list_show(const LinkedList* list) {
     LinkedItem* current = list->head;
     int c = 0;
 
@@ -124,9 +124,9 @@ int linked_list_remove_first(LinkedList* list) {
 }
 
 // Retornar valor guardado no enésimo lugar da sequência.
-int linked_list_item_at(LinkedList* list, unsigned int n) {
+int linked_list_get(const LinkedList* list, unsigned int n) {
     if (list->head == NULL)
-        perror("Erro em linked_list_item_at() de lista vazia"), exit(1);
+        perror("Erro em linked_list_get() de lista vazia"), exit(1);
 
     LinkedItem* current = list->head;
     unsigned int c = 0;
@@ -134,7 +134,7 @@ int linked_list_item_at(LinkedList* list, unsigned int n) {
 
     while (c <= n) {  // Se n = 0 retorna o primeiro, etc.
         if (current == NULL)
-            perror("Erro em linked_list_item_at() fora de índice"), exit(1);
+            perror("Erro em linked_list_get() fora de índice"), exit(1);
 
         result = current->data;
         current = current->next;
@@ -144,7 +144,7 @@ int linked_list_item_at(LinkedList* list, unsigned int n) {
 }
 
 // Retorna o endereço do primeiro item com o valor da busca.
-LinkedItem* linked_list_find(LinkedList* list, int query) {
+LinkedItem* linked_list_find(const LinkedList* list, int query) {
     LinkedItem* current = list->head;
     while (current != NULL) {
         if (current->data == query)
@@ -165,12 +165,12 @@ void linked_list_empty(LinkedList* list) {
 }
 
 // Retorna a quantidade de itens na lista.
-int linked_list_size(LinkedList* list) {
+int linked_list_size(const LinkedList* list) {
     return list->size;
 }
 
 // Retorna o endereço do menor item da lista.
-LinkedItem* linked_list_min(LinkedList* list) {
+LinkedItem* linked_list_min(const LinkedList* list) {
     LinkedItem* current = list->head;
     if (current == NULL)
         return NULL;
@@ -187,7 +187,7 @@ LinkedItem* linked_list_min(LinkedList* list) {
 }
 
 // Retorna o endereço do maior item da lista.
-LinkedItem* linked_list_max(LinkedList* list) {
+LinkedItem* linked_list_max(const LinkedList* list) {
     LinkedItem* current = list->head;
     if (current == NULL)
         return NULL;
@@ -204,7 +204,7 @@ LinkedItem* linked_list_max(LinkedList* list) {
 }
 
 // Retorna o número de ocorrências de um valor na lista.
-int linked_list_count(LinkedList* list, int query) {
+int linked_list_count(const LinkedList* list, int query) {
     LinkedItem* current = list->head;
     unsigned int count = 0;
     while (current != NULL) {
@@ -217,7 +217,7 @@ int linked_list_count(LinkedList* list, int query) {
 }
 
 // Retorna ponteiro para uma cópia da lista.
-LinkedList* linked_list_copy(LinkedList* list) {
+LinkedList* linked_list_copy(const LinkedList* list) {
     LinkedList* new_list = linked_list_init();
     LinkedItem* current = list->head;
 

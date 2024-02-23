@@ -21,7 +21,7 @@ int main() {
     printf("Largest item in list:\t\t%d\n", linked_list_max(n)->data);
     printf("Number of times 97 appears:\t%d\n", linked_list_count(n, 97));
     printf("Value 97 first appears at:\t%p\n", linked_list_find(n, 97));
-    printf("Item at position 4:\t\t%d\n", linked_list_item_at(n, 4));
+    printf("Item at position 4:\t\t%d\n", linked_list_get(n, 4));
     printf("Removed first item in list:\t%d\n", linked_list_remove_first(n));
     printf("Removed last item in list:\t%d\n\n", linked_list_remove_last(n));
 
