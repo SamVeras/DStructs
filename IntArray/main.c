@@ -71,6 +71,12 @@ int int_array_get(const IntArray* array, unsigned int index) {
     return array->data[index];
 }
 
+void int_array_set(IntArray* array, unsigned int index, int val) {
+    if (index > array->used - 1)
+        return;
+    array->data[index] = val;
+}
+
 // Insere o valor no índice específicado, sem substituição
 void int_array_insert(IntArray* array, unsigned int index, int val) {
 }
