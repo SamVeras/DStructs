@@ -110,6 +110,9 @@ void int_array_set(IntArray* array, unsigned int index, int val) {
 
 // Insere o valor no índice específicado, sem substituição
 void int_array_insert(IntArray* array, unsigned int index, int val) {
+    if (index > array->used - 1)
+        error_manager(ERROR_INDEX_ERROR, "insert outside of array");
+    // Coisas acontecerão aqui.
 }
 
 // Visualização do array
