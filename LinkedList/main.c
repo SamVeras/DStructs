@@ -11,6 +11,7 @@ typedef struct LinkedItem {
 typedef struct LinkedList {
     LinkedItem* head;
     LinkedItem* tail;
+    unsigned int size;
 } LinkedList;
 
 // Inicializar item sem valor.
@@ -30,6 +31,7 @@ LinkedList* linked_list_init() {
 
     list->head = NULL;
     list->tail = NULL;
+    list->size = 0;
     return list;
 }
 
@@ -44,6 +46,7 @@ void linked_list_append(LinkedList* list, int value) {
         list->tail->next = new_item;
 
     list->tail = new_item;
+    list->size++;
 }
 
 // Insere um valor em um node novo, no início da lista.
@@ -58,6 +61,8 @@ void linked_list_prepend(LinkedList* list, int value) {
         new_item->next = list->head;
         list->head = new_item;
     }
+
+    list->size++;
 }
 
 // Printa todos os itens, endereços, etc..
@@ -98,6 +103,7 @@ int linked_list_remove_last(LinkedList* list) {
         free(list->head);
         list->head = NULL;
         list->tail = NULL;
+        list->size = 0;
         return value;
     }
 
@@ -110,6 +116,7 @@ int linked_list_remove_last(LinkedList* list) {
     free(last);
     current->next = NULL;
     list->tail = current;
+    list->size--;
     return value;
 }
 
@@ -124,6 +131,7 @@ int linked_list_remove_first(LinkedList* list) {
     if (list->head == NULL)
         list->tail = NULL;
     free(first);
+    list->size--;
     return value;
 }
 
@@ -165,19 +173,12 @@ void linked_list_empty(LinkedList* list) {
     while (list->head != NULL) {
         linked_list_remove_first(list);
     }
+    list->size--;
 }
 
 // Retorna a quantidade de itens na lista.
 int linked_list_size(LinkedList* list) {
-    LinkedItem* current = list->head;
-    if (current->next == NULL)
-        return 0;
-    unsigned int counter = 1;
-    while (current->next != NULL) {
-        counter++;
-        current = current->next;
-    }
-    return counter;
+    return list->size;
 }
 
 // Retorna o endereço do menor item da lista.
