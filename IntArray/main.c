@@ -34,8 +34,8 @@ void int_array_destroy(IntArray* array) {
 // Empurra valor para o final do array, mudando o tamanho do array se necessário
 void int_array_push(IntArray* array, int num) {
     if (array->used == array->max_size) {
-        array->data = realloc(array->data, sizeof(int) * array->max_size * 2);
         array->max_size *= 2;
+        array->data = realloc(array->data, sizeof(int) * array->max_size);
     }
 
     array->data[array->used] = num;
@@ -64,7 +64,7 @@ int int_array_pop(IntArray* array) {
     return array->data[--array->used];
 };
 
-const int int_array_get(IntArray* array, unsigned int index) {
+int int_array_get(const IntArray* array, unsigned int index) {
     if (index < array->used - 1)
         perror("Erro em get fora de índice"), exit(1);
 
@@ -76,14 +76,14 @@ void int_array_insert(IntArray* array, unsigned int index, int val) {
 }
 
 // Visualização do array
-const void int_array_show(IntArray* array) {
+void int_array_show(const IntArray* array) {
     for (unsigned int i = 0; i < array->used; i++)
         printf("[%d]", array->data[i]);
     printf("\n");
 }
 
 // Visualização do array com detalhes
-const void int_array_status(IntArray* array) {
+void int_array_status(const IntArray* array) {
     printf("Size: %d  Used: %d\n", array->max_size, array->used);
     for (unsigned int i = 0; i < array->used; i++)
         printf("[%d]", array->data[i]);
