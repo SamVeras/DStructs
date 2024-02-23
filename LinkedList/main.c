@@ -10,6 +10,7 @@ typedef struct LinkedItem {
 // A lista sempre tem o endereço do primeiro item, ou NULL.
 typedef struct LinkedList {
     LinkedItem* head;
+    LinkedItem* tail;
 } LinkedList;
 
 // Inicializar item sem valor.
@@ -28,27 +29,9 @@ LinkedList* linked_list_init() {
         perror("Erro em malloc() linked_list_init()"), exit(1);
 
     list->head = NULL;
+    list->tail = NULL;
     return list;
 }
-
-// Retorna o endereço do último item da lista.
-LinkedItem* linked_list_get_last(LinkedList* list) {
-    if (list->head == NULL)
-        return NULL;
-
-    LinkedItem* current = list->head;
-
-    while (current->next != NULL)
-        current = current->next;
-
-    return current;
-}
-
-// Poderíamos considerar modificar o struct LinkedList para adicionar um pointer
-// para o fim da lista, atualizando sempre que inserimos um novo item. No caso
-// de uma singly-linked list, isso só será útil para agilizar o processo de
-// conseguir o endereço do fim da lista, mas para doubly-linked, talvez tenha
-// melhores usos.
 
 // Insere um valor em um node novo, no fim da lista.
 void linked_list_append(LinkedList* list, int value) {
@@ -58,7 +41,9 @@ void linked_list_append(LinkedList* list, int value) {
     if (list->head == NULL)  // Lista está vazia
         list->head = new_item;
     else
-        linked_list_get_last(list)->next = new_item;
+        list->tail->next = new_item;
+
+    list->tail = new_item;
 }
 
 // Insere um valor em um node novo, no início da lista.
@@ -66,9 +51,10 @@ void linked_list_prepend(LinkedList* list, int value) {
     LinkedItem* new_item = linked_item_init();
     new_item->data = value;
 
-    if (list->head == NULL)  // Lista está vazia
+    if (list->tail == NULL) {
         list->head = new_item;
-    else {
+        list->tail = new_item;
+    } else {
         new_item->next = list->head;
         list->head = new_item;
     }
@@ -100,27 +86,30 @@ void linked_list_destroy(LinkedList* rip) {
 
 // Remove e retorna o último item da lista.
 int linked_list_remove_last(LinkedList* list) {
-    if (list->head)
+    if (list->head == NULL)
         perror("Erro em linked_list_remove_last() lista vazia"), exit(1);
 
     LinkedItem* current = list->head;
-    LinkedItem* next = current->next;
+    LinkedItem* last = list->tail;
 
-    if (next == NULL) {  // Lista com apenas 1 item
-        int value = current->data;
+    // Caso tenha apenas 1 item:
+    if (list->head == list->tail) {
+        int value = list->head->data;
+        free(list->head);
         list->head = NULL;
-        free(current);
+        list->tail = NULL;
         return value;
     }
 
-    while (next->next != NULL) {  // Basicamente, queremos ter acesso
-        current = next;           // ao último e penúltimo itens
-        next = current->next;
-    }
+    // Para remover o último item precisamos do penúltimo.
+    while (current->next != last) {
+        current = current->next;
+    };
 
-    int value = next->data;
+    int value = last->data;
+    free(last);
     current->next = NULL;
-    free(next);
+    list->tail = current;
     return value;
 }
 
@@ -129,10 +118,12 @@ int linked_list_remove_first(LinkedList* list) {
     if (list->head == NULL)
         perror("Erro em linked_list_remove_first() lista vazia"), exit(1);
 
-    LinkedItem* head = list->head;
-    int value = head->data;
-    list->head = head->next;
-    free(head);
+    LinkedItem* first = list->head;
+    int value = first->data;
+    list->head = first->next;
+    if (list->head == NULL)
+        list->tail = NULL;
+    free(first);
     return value;
 }
 
