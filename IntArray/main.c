@@ -71,3 +71,6 @@ const int int_array_get(IntArray* array, unsigned int index) {
     return array->data[index];
 }
 
+// Insere o valor no índice específicado, sem substituição
+void int_array_insert(IntArray* array, unsigned int index, int val) {
+}
