@@ -218,7 +218,7 @@ LinkedItem* linked_list_max(LinkedList* list) {
 
     while (current->next != NULL) {
         current = current->next;
-        if (current->data < min->data)
+        if (current->data > min->data)
             min = current;
     }
 
