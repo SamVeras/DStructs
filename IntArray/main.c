@@ -42,7 +42,7 @@ void int_array_push(IntArray* array, int num) {
     array->used++;
 }
 
-// Remove e retorna o índice especificado
+// Remove e retorna o índice especificado, realocando os índices restantes
 int int_array_remove(IntArray* array, unsigned int index) {
     if (index > array->used - 1)
         perror("Erro em remove fora de índice"), exit(1);
@@ -64,6 +64,7 @@ int int_array_pop(IntArray* array) {
     return array->data[--array->used];
 };
 
+// Retorna o valor do índice especificado, sem modificar o array
 int int_array_get(const IntArray* array, unsigned int index) {
     if (index < array->used - 1)
         perror("Erro em get fora de índice"), exit(1);
@@ -71,6 +72,7 @@ int int_array_get(const IntArray* array, unsigned int index) {
     return array->data[index];
 }
 
+// Modifica o valor do índice especificado
 void int_array_set(IntArray* array, unsigned int index, int val) {
     if (index > array->used - 1)
         return;
