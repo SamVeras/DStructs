@@ -2,11 +2,34 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define ERROR_ALLOC_FAILURE -1
+#define ERROR_INDEX_ERROR -2
+#define ERROR_NONLETHAL -3
+
+void error_manager(int error_code, char* message) {
+    switch (error_code) {
+        case ERROR_ALLOC_FAILURE:
+            fprintf(stderr, "AllocFailure: %s\n", message);
+            exit(1);
+
+        case ERROR_INDEX_ERROR:
+            fprintf(stderr, "IndexError: %s\n", message);
+            exit(1);
+
+        case ERROR_NONLETHAL:
+            fprintf(stderr, "NonLethal: %s\n", message);
+
+        default:
+            fprintf(stderr, "UnknownError: %s (%d)\n", message, error_code);
+            exit(1);
+    }
+}
+
 // Inicializar item sem valor.
 LinkedItem* linked_item_init() {
     LinkedItem* node = malloc(sizeof(LinkedItem));
     if (node == NULL)
-        perror("Erro em malloc() linked_item_init()"), exit(1);
+        error_manager(ERROR_ALLOC_FAILURE, "item init failure");
     node->next = NULL;
     return node;
 }
@@ -15,7 +38,7 @@ LinkedItem* linked_item_init() {
 LinkedList* linked_list_init() {
     LinkedList* list = malloc(sizeof(LinkedList));
     if (list == NULL)
-        perror("Erro em malloc() linked_list_init()"), exit(1);
+        error_manager(ERROR_ALLOC_FAILURE, "list init failure");
 
     list->head = NULL;
     list->tail = NULL;
@@ -80,7 +103,7 @@ void linked_list_prepend(LinkedList* list, int value) {
 // Remove e retorna o último item da lista.
 int linked_list_remove_last(LinkedList* list) {
     if (list->head == NULL)
-        perror("Erro em linked_list_remove_last() lista vazia"), exit(1);
+        error_manager(ERROR_INDEX_ERROR, "pop empty list");
 
     LinkedItem* current = list->head;
     LinkedItem* last = list->tail;
@@ -111,7 +134,7 @@ int linked_list_remove_last(LinkedList* list) {
 // Remove e retorna o primeiro item da lista.
 int linked_list_remove_first(LinkedList* list) {
     if (list->head == NULL)
-        perror("Erro em linked_list_remove_first() lista vazia"), exit(1);
+        error_manager(ERROR_INDEX_ERROR, "remove first in empty list");
 
     LinkedItem* first = list->head;
     int value = first->data;
@@ -126,7 +149,7 @@ int linked_list_remove_first(LinkedList* list) {
 // Retornar valor guardado no enésimo lugar da sequência.
 int linked_list_get(const LinkedList* list, unsigned int n) {
     if (list->head == NULL)
-        perror("Erro em linked_list_get() de lista vazia"), exit(1);
+        error_manager(ERROR_INDEX_ERROR, "get in empty list");
 
     LinkedItem* current = list->head;
     unsigned int c = 0;
@@ -134,7 +157,7 @@ int linked_list_get(const LinkedList* list, unsigned int n) {
 
     while (c <= n) {  // Se n = 0 retorna o primeiro, etc.
         if (current == NULL)
-            perror("Erro em linked_list_get() fora de índice"), exit(1);
+            error_manager(ERROR_INDEX_ERROR, "get out of range");
 
         result = current->data;
         current = current->next;
@@ -151,7 +174,8 @@ LinkedItem* linked_list_find(const LinkedList* list, int query) {
             return current;
         current = current->next;
     }
-    perror("Erro em linked_list_find() resultado não encontrado"), exit(1);
+    error_manager(ERROR_NONLETHAL, "query not found");
+    return NULL;
 }
 
 // Remove todos os itens da lista.
