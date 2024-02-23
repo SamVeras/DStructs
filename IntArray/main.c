@@ -95,7 +95,7 @@ void int_array_status(const IntArray* array) {
     printf("Size: %d  Used: %d\n", array->max_size, array->used);
     for (unsigned int i = 0; i < array->used; i++)
         printf("[%d]", array->data[i]);
-    printf("\nAddress: %p\nData address: %p\n", array, array->data);
+    printf("\nAddress: %p\nData:    %p\n", array, array->data);
     printf("\n");
 }
 
