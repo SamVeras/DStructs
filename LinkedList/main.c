@@ -225,6 +225,7 @@ LinkedItem* linked_list_max(LinkedList* list) {
     return min;
 }
 
+// Retorna o número de ocorrências de um valor na lista.
 int linked_list_count(LinkedList* list, int query) {
     LinkedItem* current = list->head;
     unsigned int count = 0;
@@ -237,6 +238,7 @@ int linked_list_count(LinkedList* list, int query) {
     return count;
 }
 
+// Retorna ponteiro para uma cópia da lista.
 LinkedList* linked_list_copy(LinkedList* list) {
     LinkedList* new_list = linked_list_init();
     LinkedItem* current = list->head;
