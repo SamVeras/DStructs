@@ -21,6 +21,11 @@ int main() {
     int_array_set(a, 2, 555);
     int_array_status(a);
 
+    int_array_insert(a, 1, 999);
+    int_array_insert(a, 8, 12341234);
+
+    int_array_status(a);
+
     int_array_destroy(a);
 
     return 0;

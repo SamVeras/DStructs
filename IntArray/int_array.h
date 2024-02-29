@@ -12,11 +12,12 @@ typedef struct IntArray {
     size_t max_size;
     size_t used;
 } IntArray;
-
+// Recebe um código (definido no header) e uma mensagem de erro
 void error_manager(int error_code, char* message);
-
 // Retorna pointer para array vazio com tamanho especificado
 IntArray* int_array_init(size_t initial_size);
+// Dobra o tamanho do array.
+void int_array_expand(IntArray* array);
 // Destroy array e todos os dados
 void int_array_destroy(IntArray* array);
 // Empurra valor para o final do array, mudando o tamanho do array se necessário

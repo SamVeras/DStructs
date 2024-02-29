@@ -36,18 +36,21 @@ IntArray* int_array_init(size_t initial_size) {
     return array;
 }
 
+void int_array_expand(IntArray* array) {
+    array->max_size *= 2;
+    array->data = realloc(array->data, sizeof(int) * array->max_size);
+    if (array->data == NULL)
+        error_manager(ERROR_ALLOC_FAILURE, "array push realloc");
+}
+
 void int_array_destroy(IntArray* array) {
     free(array->data);
     free(array);
 }
 
 void int_array_push(IntArray* array, int num) {
-    if (array->used == array->max_size) {
-        array->max_size *= 2;
-        array->data = realloc(array->data, sizeof(int) * array->max_size);
-        if (array->data == NULL)
-            error_manager(ERROR_ALLOC_FAILURE, "array push realloc");
-    }
+    if (array->used == array->max_size)
+        int_array_expand(array);
 
     array->data[array->used] = num;
     array->used++;
@@ -91,10 +94,20 @@ void int_array_set(IntArray* array, size_t index, int val) {
 }
 
 void int_array_insert(IntArray* array, size_t index, int val) {
-    if (index > array->used - 1)
+    if (index > array->used)
         error_manager(ERROR_INDEX_ERROR, "insert outside of array");
-    // Coisas acontecerão aqui.
-    printf("%d", val);
+    else if (index == array->used)
+        int_array_push(array, val);
+    else {
+        if (array->used == array->max_size)
+            int_array_expand(array);
+
+        for (size_t i = array->used; i > index; i--)
+            array->data[i] = array->data[i - 1];
+
+        array->used++;
+        array->data[index] = val;
+    }
 }
 
 void int_array_show(const IntArray* array) {
