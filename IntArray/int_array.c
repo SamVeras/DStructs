@@ -145,3 +145,13 @@ size_t int_array_find(const IntArray* array, int val) {
 
     return -1;
 }
+
+int int_array_purge(IntArray* array, int val) {
+    int result = 0;
+    for (size_t i = 0; i < array->used; i++)
+        if (array->data[i] == val) {
+            int_array_remove(array, i--);  // Esse i-- é porque o array_remove
+            result++;                      // vai mudar as posições dos itens
+        }                                  // para a esquerda
+    return result;
+}

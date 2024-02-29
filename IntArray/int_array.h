@@ -42,3 +42,5 @@ void int_array_clear(IntArray* array);
 void int_array_trim(IntArray* array);
 // Retorna índice da primeira ocorrência
 size_t int_array_find(const IntArray* array, int val);
+// Remove todas as ocorrências do valor e retorna a quantidade
+int int_array_purge(IntArray* array, int val);
