@@ -123,3 +123,7 @@ void int_array_status(const IntArray* array) {
     printf("\nAddress: %p\nData:    %p\n", array, array->data);
     printf("\n");
 }
+
+void int_array_clear(IntArray* array) {
+    array->used = 0;
+}

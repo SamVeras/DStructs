@@ -36,3 +36,5 @@ void int_array_insert(IntArray* array, size_t index, int val);
 void int_array_show(const IntArray* array);
 // Visualização do array com detalhes
 void int_array_status(const IntArray* array);
+// Reseta o número de índices usados para 0, efetivamente limpando o array
+void int_array_clear(IntArray* array);
