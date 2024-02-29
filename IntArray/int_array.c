@@ -40,7 +40,7 @@ void int_array_expand(IntArray* array) {
     array->max_size *= 2;
     array->data = realloc(array->data, sizeof(int) * array->max_size);
     if (array->data == NULL)
-        error_manager(ERROR_ALLOC_FAILURE, "array push realloc");
+        error_manager(ERROR_ALLOC_FAILURE, "array expand realloc");
 }
 
 void int_array_destroy(IntArray* array) {
@@ -138,3 +138,10 @@ void int_array_trim(IntArray* array) {
     array->max_size = array->used;
 }
 
+size_t int_array_find(const IntArray* array, int val) {
+    for (size_t i = 0; i < array->used; i++)
+        if (array->data[i] == val)
+            return i;
+
+    return -1;
+}

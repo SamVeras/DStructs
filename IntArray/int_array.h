@@ -40,3 +40,5 @@ void int_array_status(const IntArray* array);
 void int_array_clear(IntArray* array);
 // Redimensiona o tamanho do array para o número de índices utilizados
 void int_array_trim(IntArray* array);
+// Retorna índice da primeira ocorrência
+size_t int_array_find(const IntArray* array, int val);
