@@ -1,6 +1,8 @@
 #pragma once
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define ERROR_ALLOC_FAILURE -1
 #define ERROR_INDEX_ERROR -2
@@ -44,3 +46,9 @@ void int_array_trim(IntArray* array);
 size_t int_array_find(const IntArray* array, int val);
 // Remove todas as ocorrências do valor e retorna a quantidade
 int int_array_purge(IntArray* array, int val);
+// reverse
+void int_array_reverse(IntArray* array);
+// copy
+IntArray* int_array_copy(IntArray* array);
+// contains
+bool int_array_contains(IntArray* array, int val);

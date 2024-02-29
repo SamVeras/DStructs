@@ -155,3 +155,28 @@ int int_array_purge(IntArray* array, int val) {
         }                                  // para a esquerda
     return result;
 }
+
+void int_array_reverse(IntArray* array) {
+    size_t start = 0, end = array->used - 1;
+
+    while (end > start) {
+        int temp = array->data[start];
+        int_array_set(array, start, array->data[end]);
+        int_array_set(array, end, temp);
+        start++, end--;
+    }
+}
+
+IntArray* int_array_copy(IntArray* array) {
+    IntArray* new_array = int_array_init(array->max_size);
+    new_array->used = array->used;
+    memcpy(new_array->data, array->data, sizeof(int) * array->max_size);
+    return new_array;
+}
+
+bool int_array_contains(IntArray* array, int val) {
+    for (size_t i = 0; i < array->used; i++)
+        if (array->data[i] == val)
+            return true;
+    return false;
+}
