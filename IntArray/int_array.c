@@ -127,3 +127,14 @@ void int_array_status(const IntArray* array) {
 void int_array_clear(IntArray* array) {
     array->used = 0;
 }
+
+void int_array_trim(IntArray* array) {
+    if (array->max_size == array->used)
+        return;
+
+    array->data = realloc(array->data, sizeof(int) * array->used);
+    if (array->data == NULL)
+        error_manager(ERROR_ALLOC_FAILURE, "array trim realloc fail");
+    array->max_size = array->used;
+}
+

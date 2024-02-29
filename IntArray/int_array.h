@@ -38,3 +38,5 @@ void int_array_show(const IntArray* array);
 void int_array_status(const IntArray* array);
 // Reseta o número de índices usados para 0, efetivamente limpando o array
 void int_array_clear(IntArray* array);
+// Redimensiona o tamanho do array para o número de índices utilizados
+void int_array_trim(IntArray* array);
