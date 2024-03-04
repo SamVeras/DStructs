@@ -194,12 +194,29 @@ int list_set(LinkedList* list, size_t index, int val) {
 }
 
 // Remove um node da lista e libera o espaco de memória
-void list_remove_node(LinkedList* list, LinkedNode* node) {
+int list_remove_node(LinkedList* list, LinkedNode* node) {
   if (list->head == NULL)
     error_handler(ERROR_INDEX_ERROR, "list_remove_node in empty list");
 
+  int temp = node->data;
+
   node->prev->next = node->next;
   node->next->prev = node->prev;
-  list->size--;
   free(node);
+
+  list->size--;
+
+  return temp;
+}
+
+// Remove o item na posição especificada
+int list_remove(LinkedList* list, size_t index) {
+  if (list->head == NULL)
+    error_handler(ERROR_INDEX_ERROR, "list_remove in empty list");
+
+  if (index >= list->size)
+    error_handler(ERROR_INDEX_ERROR, "list_remove out of list bounds");
+
+  LinkedNode* current = list_get_node_at(list, index);
+  return list_remove_node(list, current);
 }

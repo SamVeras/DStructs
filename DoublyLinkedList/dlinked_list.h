@@ -34,4 +34,5 @@ int list_pop_front(LinkedList* list);
 int list_get(const LinkedList* list, size_t index);
 int list_set(LinkedList* list, size_t index, int val);
 
-void list_remove_node(LinkedList* list, LinkedNode* node);
+int list_remove_node(LinkedList* list, LinkedNode* node);
+int list_remove(LinkedList* list, size_t index);
