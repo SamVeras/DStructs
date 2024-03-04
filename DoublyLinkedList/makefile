@@ -2,36 +2,44 @@ COMPILER := gcc # Compilador
 FLAGS := -g -Wall -W -Werror -fsanitize=address -std=c99
 LIBS :=
 
-SRCEXT := c # Extensão dos arquivos-fonte
-HDREXT := h # Extensão dos arquivos-headers
-OBJEXT := o # Extensão dos objetos
+SRCEXT := c
+HDREXT := h
+OBJEXT := o
 
-SOURCES := $(wildcard *.$(SRCEXT)) # Encontrar arquivos-fonte
-HEADERS := $(wildcard *.$(HDREXT)) # Encontrar arquivos-headers
-OBJECTS := $(patsubst %.$(SRCEXT), %.$(OBJEXT), $(SOURCES)) # Encontrar objetos
+SOURCES := $(wildcard *.$(SRCEXT))
+HEADERS := $(wildcard *.$(HDREXT))
+OBJECTS := $(SOURCES:.$(SRCEXT)=.$(OBJEXT))
 
-TARGET := DoublyLinkedList # Nome da aplicação
+ # Nome da aplicação
+TARGET := DoublyLinkedList
 
 # Principal
 $(TARGET): $(OBJECTS)
 	$(COMPILER) $(FLAGS) $^ -o $@ $(LIBS)
-	@echo "$(CC) $(TARGET) $(NC)"
+	@echo "$(GC)~ $(TARGET) compilado.$(NC)"
 
 # Objetos
-#$(OBJECTS): %.$(SOURCES) $(HEADERS)
 $(OBJECTS): %.$(OBJEXT): %.$(SRCEXT) $(HEADERS)
 	$(COMPILER) $(FLAGS) -c $< -o $@
-	@echo "$(CC) $@ $(NC)"
+	@echo "$(CC)~ $@ compilado.$(NC)"
 
 # Limpar
 clean:
 	rm -f $(TARGET) $(OBJECTS)
-	@echo "$(CC) $(TARGET) $(NC)"
+	@echo "$(BC)~ Arquivos limpados.$(NC)"
 
 # Executar
 run:
-	@echo "$(CC) $(TARGET) $(NC)"
-	./$(TARGET)
+	@echo "$(RC)~ Rodando.$(NC)"
+	@./$(TARGET)
+
+
+# bla:
+# 	@echo "bla"
+# 	@echo "$(SRCEXT),$(HDREXT),$(OBJEXT)"
+# 	@echo "Sources: $(SOURCES)"
+# 	@echo "Headers: $(HEADERS)"
+# 	@echo "Objects: $(OBJECTS)"
 
 .PHONY: all clean run
 
@@ -41,3 +49,4 @@ GC := \033[32m
 MC := \033[35m
 BC := \033[34m
 CC := \033[36m
+RC := \033[31m
