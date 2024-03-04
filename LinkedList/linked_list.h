@@ -2,15 +2,15 @@
 
 // nó, node, elemento, sei la
 typedef struct LinkedItem {
-    int data;
-    struct LinkedItem* next;
+  int data;
+  struct LinkedItem* next;
 } LinkedItem;
 
 // A lista sempre tem o endereço do primeiro item, ou NULL.
 typedef struct LinkedList {
-    LinkedItem* head;
-    LinkedItem* tail;
-    unsigned int size;
+  LinkedItem* head;
+  LinkedItem* tail;
+  unsigned int size;
 } LinkedList;
 
 // LinkedItem* linked_item_init();

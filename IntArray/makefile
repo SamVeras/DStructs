@@ -4,7 +4,7 @@ TARGET := intarray.out
 
 SRC := int_array.c main.c
 OBJ := $(SRC:.c=.o)
-DEPS := int_array.h
+DEPS := int_array.h quicksort.h
 
 $(TARGET): $(OBJ)
 	@$(CXX) $(CXXFLAGS) $^ -o $@

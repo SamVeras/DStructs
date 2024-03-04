@@ -10,9 +10,9 @@
 
 // int* data, size_t max_size e size_t used
 typedef struct IntArray {
-    int* data;
-    size_t max_size;
-    size_t used;
+  int* data;
+  size_t max_size;
+  size_t used;
 } IntArray;
 // Recebe um código (definido no header) e uma mensagem de erro
 void error_manager(int error_code, char* message);
@@ -46,9 +46,13 @@ void int_array_trim(IntArray* array);
 size_t int_array_find(const IntArray* array, int val);
 // Remove todas as ocorrências do valor e retorna a quantidade
 int int_array_purge(IntArray* array, int val);
+// quicksort?
+void int_array_sort(IntArray* array);
 // reverse
 void int_array_reverse(IntArray* array);
 // copy
 IntArray* int_array_copy(IntArray* array);
 // contains
 bool int_array_contains(IntArray* array, int val);
+// merge
+IntArray* int_array_concat(IntArray* array_1, IntArray* array_2);
