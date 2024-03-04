@@ -1,4 +1,5 @@
-COMPILER := gcc # Compilador
+# Compilador
+COMPILER := gcc
 FLAGS := -g -Wall -W -Werror -fsanitize=address -std=c99
 LIBS :=
 
@@ -16,21 +17,21 @@ TARGET := DoublyLinkedList
 # Principal
 $(TARGET): $(OBJECTS)
 	$(COMPILER) $(FLAGS) $^ -o $@ $(LIBS)
-	@echo "$(GC)~ $(TARGET) compilado.$(NC)"
+	@echo "$(GC)Executável compilado: $(TARGET)$(NC)"
 
 # Objetos
 $(OBJECTS): %.$(OBJEXT): %.$(SRCEXT) $(HEADERS)
 	$(COMPILER) $(FLAGS) -c $< -o $@
-	@echo "$(CC)~ $@ compilado.$(NC)"
+	@echo "$(CC)Objeto compilado: $@$(NC)"
 
 # Limpar
 clean:
-	rm -f $(TARGET) $(OBJECTS)
-	@echo "$(BC)~ Arquivos limpados.$(NC)"
+	@rm -f $(TARGET) $(OBJECTS)
+	@echo "$(BC)Arquivos limpados:\n$(RC)$(TARGET) $(OBJECTS)$(NC)"
 
 # Executar
 run:
-	@echo "$(RC)~ Rodando.$(NC)"
+	@echo "$(MC)Rodando $(TARGET)$(NC)"
 	@./$(TARGET)
 
 
