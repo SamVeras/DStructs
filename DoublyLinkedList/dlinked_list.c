@@ -198,6 +198,11 @@ int list_remove_node(LinkedList* list, LinkedNode* node) {
   if (list->head == NULL)
     error_handler(ERROR_INDEX_ERROR, "list_remove_node in empty list");
 
+  if (list->head == node)
+    return list_pop_front(list);
+  if (list->tail == node)
+    return list_pop_back(list);
+
   int temp = node->data;
 
   node->prev->next = node->next;
