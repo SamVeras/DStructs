@@ -6,6 +6,7 @@
 #define ERROR_INDEX_ERROR -2
 #define ERROR_NONLETHAL -3
 
+// Recebe um código (definido no header) e uma mensagem de erro
 void error_manager(int error_code, char* message) {
   switch (error_code) {
     case ERROR_ALLOC_FAILURE:

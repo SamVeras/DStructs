@@ -18,18 +18,20 @@ LinkedNode* node_init();
 LinkedList* list_init();
 void list_destroy(LinkedList* list);
 
-void list_show(LinkedList* list);
-void list_detailed(LinkedList* list);
+size_t list_size(const LinkedList* list);
+
+void list_show(const LinkedList* list);
+void list_detailed(const LinkedList* list);
+
+LinkedNode* list_get_node_at(const LinkedList* list, size_t index);
 
 void list_push_back(LinkedList* list, int val);
 void list_push_front(LinkedList* list, int val);
 
-void list_pop_back(LinkedList* list);
-void list_pop_front(LinkedList* list);
+int list_pop_back(LinkedList* list);
+int list_pop_front(LinkedList* list);
 
-int list_get(LinkedList* list, size_t index);
-void list_set(LinkedList* list, size_t index, int val);
+int list_get(const LinkedList* list, size_t index);
+int list_set(LinkedList* list, size_t index, int val);
 
-size_t list_size(LinkedList* list);
-
-// adicionar função para remover item de lista passando item como parametro
+void list_remove_node(LinkedList* list, LinkedNode* node);
