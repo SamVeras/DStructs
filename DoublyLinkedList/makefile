@@ -18,7 +18,8 @@ $(TARGET): $(OBJECTS)
 	@echo "$(CC) $(TARGET) $(NC)"
 
 # Objetos
-$(OBJECTS): $(SOURCES) $(HEADERS)
+#$(OBJECTS): %.$(SOURCES) $(HEADERS)
+$(OBJECTS): %.$(OBJEXT): %.$(SRCEXT) $(HEADERS)
 	$(COMPILER) $(FLAGS) -c $< -o $@
 	@echo "$(CC) $@ $(NC)"
 

@@ -1,4 +1,5 @@
 #include "dlinked_list.h"
+#include <stdio.h>
 
 LinkedNode* node_init() {
   LinkedNode* node = malloc(sizeof(LinkedNode));
@@ -44,7 +45,7 @@ void list_show(LinkedList* list) {
 void list_detailed(LinkedList* list) {
   printf("List head: @%p\n", list->head);
   printf("List tail: @%p\n", list->tail);
-  printf("List size: %d\n", list->size);
+  printf("List size: %zu\n", list->size);
 
   LinkedNode* current = list->head;
   while (current != NULL) {

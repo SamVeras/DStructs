@@ -1,5 +1,6 @@
 #include "error_handler.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 void error_handler(int error, char* message) {
   switch (error) {
