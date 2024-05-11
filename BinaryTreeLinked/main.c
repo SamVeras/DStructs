@@ -7,7 +7,6 @@ struct BinTreeNode {
 };
 struct BinTreeLinked {
   struct BinTreeNode* root;
-  size_t              size;
 };
 
 typedef struct BinTreeNode   Node;
@@ -35,6 +34,7 @@ void tree_insert(Tree* t, int x) {
       current = current->right;
       continue;
     }
+
     if (current->left == NULL) {
       current->left = init_node(x);
       break;
@@ -58,15 +58,26 @@ void tree_print(Tree* t) {
   node_print(t->root);
 }
 
-void free_tree(Tree* t) {}
+void free_node(Node* n) {
+  if (n == NULL)
+    return;
+  free_node(n->left);
+  free_node(n->right);
+  free(n);
+}
+
+void free_tree(Tree* t) {
+  free_node(t->root);
+  free(t);
+}
 
 int main() {
   Tree* T = init_tree(5);
   tree_insert(T, 8);
   tree_insert(T, 2);
   tree_insert(T, 1);
-  free_tree(T);
   tree_print(T);
 
+  free_tree(T);
   return 0;
 }
