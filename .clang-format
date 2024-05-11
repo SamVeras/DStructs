@@ -1,18 +1,22 @@
-BasedOnStyle: Google
-ReflowComments: false
+BasedOnStyle: Chromium
+ColumnLimit: 100
 IndentWidth: 2
-UseTab: Never
-SpacesBeforeTrailingComments: 2
 TabWidth: 2
-ColumnLimit: 80
-AllowShortFunctionsOnASingleLine: None
-AllowShortIfStatementsOnASingleLine: Never
+UseTab: Never
+
+SpacesBeforeTrailingComments: 2
 AlignTrailingComments:
   Kind: Always
-  OverEmptyLines: 2
-AlignAfterOpenBracket: BlockIndent
-AlignArrayOfStructures: None
-BreakConstructorInitializers: AfterColon
-PackConstructorInitializers: BinPack
-SortIncludes: CaseSensitive
-IncludeBlocks: Merge
+  OverEmptyLines: 1
+
+AlignConsecutiveAssignments:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: false
+
+AlignConsecutiveDeclarations:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: false
+
+PointerAlignment: Left
