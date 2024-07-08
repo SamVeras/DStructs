@@ -1,15 +1,32 @@
 #include <initializer_list>
 #include <stdexcept>
 #include "DoublyLinkedList.hpp"
-/* ------------------------------------------------------------------------ */
-/*                                  Private                                 */
-/* ------------------------------------------------------------------------ */
-// Constructor
+
 template <typename T>
 DoublyLinkedNode<T>::DoublyLinkedNode(const T& val)
     : data(val), prev(nullptr), next(nullptr) {}
 
-// Return pointer to the node at the given index
+template <typename T>
+template <typename... Args>
+DoublyLinkedList<T>::DoublyLinkedList(Args&&... args)
+    : head(nullptr), tail(nullptr), node_count(0) {
+    push_back(args...);
+}
+
+template <typename T>
+DoublyLinkedList<T>::~DoublyLinkedList() {
+    DoublyLinkedNode<T>* current = head;
+    DoublyLinkedNode<T>* next    = nullptr;
+
+    while (current != nullptr) {
+        next = current->next;
+        delete (current);
+        current = next;
+    }
+}
+
+/* ------------------------------------------------------------------------ */
+
 template <typename T>
 DoublyLinkedNode<T>* DoublyLinkedList<T>::get_node(size_t index) const {
     if (index > size() - 1)
@@ -32,49 +49,34 @@ DoublyLinkedNode<T>* DoublyLinkedList<T>::get_node(size_t index) const {
     return current;
 }
 
-/* ------------------------------------------------------------------------ */
-/*                                  Public                                  */
-/* ------------------------------------------------------------------------ */
-// Constructor
-template <typename T>
-template <typename... Args>
-DoublyLinkedList<T>::DoublyLinkedList(Args&&... args)
-    : head(nullptr), tail(nullptr), node_count(0) {
-    push_back(args...);
-}
-
-// Destructor
-template <typename T>
-DoublyLinkedList<T>::~DoublyLinkedList() {
-    DoublyLinkedNode<T>* current = head;
-    DoublyLinkedNode<T>* next    = nullptr;
-
-    while (current != nullptr) {
-        next = current->next;
-        delete (current);
-        current = next;
-    }
-}
-
-// Return size of list
 template <typename T>
 size_t DoublyLinkedList<T>::size() const {
     return node_count;
 }
 
-// Return value at start of list
 template <typename T>
-T DoublyLinkedList<T>::front() const {
+T& DoublyLinkedList<T>::operator[](size_t index) const {
+    if (index > size() - 1)
+        throw std::out_of_range("Index out of range");
+
+    DoublyLinkedNode<T>* current = head;
+
+    while (index-- > 0)
+        current = current->next;
+
+    return current->data;
+}
+
+template <typename T>
+T& DoublyLinkedList<T>::front() const {
     return head->data;
 }
 
-// Return value at end of list
 template <typename T>
-T DoublyLinkedList<T>::back() const {
+T& DoublyLinkedList<T>::back() const {
     return tail->data;
 }
 
-// Append values to end of list
 template <typename T>
 template <typename... Args>
 void DoublyLinkedList<T>::push_back(Args&&... args) {
@@ -82,7 +84,6 @@ void DoublyLinkedList<T>::push_back(Args&&... args) {
         push_back(val);
 }
 
-// Append single value to end of list
 template <typename T>
 void DoublyLinkedList<T>::push_back(const T& val) {
     DoublyLinkedNode<T>* new_node = new DoublyLinkedNode<T>(val);
@@ -98,7 +99,6 @@ void DoublyLinkedList<T>::push_back(const T& val) {
     node_count++;
 }
 
-// Prepend values to start of list
 template <typename T>
 template <typename... Args>
 void DoublyLinkedList<T>::push_front(Args&&... args) {
@@ -106,7 +106,6 @@ void DoublyLinkedList<T>::push_front(Args&&... args) {
         push_front(val);
 }
 
-// Prepend single value to start of list
 template <typename T>
 void DoublyLinkedList<T>::push_front(const T& val) {
     DoublyLinkedNode<T>* new_node = new DoublyLinkedNode<T>(val);
@@ -122,7 +121,6 @@ void DoublyLinkedList<T>::push_front(const T& val) {
     node_count++;
 }
 
-// Delete and return value at given index
 template <typename T>
 T DoublyLinkedList<T>::pop(size_t index) {
     DoublyLinkedNode<T>* node = get_node(index);
@@ -137,7 +135,6 @@ T DoublyLinkedList<T>::pop(size_t index) {
     return data;
 }
 
-// Delete and return value at end of list
 template <typename T>
 T DoublyLinkedList<T>::pop_front() {
     if (tail == nullptr)
@@ -181,7 +178,6 @@ T DoublyLinkedList<T>::pop_back() {
     return tail_data;
 }
 
-// Ostream operator overload
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const DoublyLinkedList<T>& list) {
     DoublyLinkedNode<T>* current = list.head;
@@ -197,20 +193,6 @@ std::ostream& operator<<(std::ostream& os, const DoublyLinkedList<T>& list) {
     }
     os << "]";
     return os;
-}
-
-// Access value of node at given index
-template <typename T>
-T& DoublyLinkedList<T>::operator[](size_t index) const {
-    if (index > size() - 1)
-        throw std::out_of_range("Index out of range");
-
-    DoublyLinkedNode<T>* current = head;
-
-    while (index-- > 0)
-        current = current->next;
-
-    return current->data;
 }
 
 /* ------------------------------------------------------------------------ */
