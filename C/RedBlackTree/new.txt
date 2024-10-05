@@ -1,0 +1,5 @@
+Percurso em ordem: 3 4 5 6 7 8 10 11 12 13 14 15 17 
+Raiz: 12
+Altura: 4
+Quantidade de nós vermelhos: 5
+Quantidade de nós pretos: 8
