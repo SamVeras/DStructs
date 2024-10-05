@@ -1,14 +1,20 @@
 #include "red_black.h"
-#include "stdio.h"
-#include "stdlib.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 // "sentinela" - nó vazio global para as folhas e pa
-static RBNode NIL = {0, NULL, NULL, NULL, BLACK /* propriedade 3 */};
+static RBT_Node NIL = {0, NULL, NULL, NULL, BLACK /* propriedade 3 */};
 
 /* ----------------------------- Inicialização ---------------------------- */
 
-RBNode* RBT_node_init(int data) {
-    RBNode* new_node = malloc(sizeof(RBNode));
+RBT_Node* RBT_node_init(int data) {
+    RBT_Node* new_node = malloc(sizeof(RBT_Node));
+
+    if (new_node == NULL) {
+        printf("Erro na inicialização do nó (malloc).\n");
+        exit(1);
+    }
+
     new_node->data   = data;
     new_node->left   = &NIL;  // refs para o nó vazio
     new_node->right  = &NIL;
@@ -17,17 +23,23 @@ RBNode* RBT_node_init(int data) {
     return new_node;
 }
 
-RBTree* RBT_tree_init() {
-    RBTree* new_tree = malloc(sizeof(RBTree));
-    new_tree->root   = &NIL;
+RBT_Tree* RBT_tree_init() {
+    RBT_Tree* new_tree = malloc(sizeof(RBT_Tree));
+
+    if (new_tree == NULL) {
+        printf("Erro na inicialização da árvore (malloc).\n");
+        exit(1);
+    }
+
+    new_tree->root = &NIL;
     return new_tree;
 }
 
 /* ------------------------------- Inserção ------------------------------- */
 
-void RBT_tree_insert(RBTree* tree, int data) {
+void RBT_tree_insert(RBT_Tree* tree, int data) {
     // x = root[T], y = nil[T], z = z[T]
-    RBNode *x = tree->root, *y = &NIL, *z = RBT_node_init(data);
+    RBT_Node *x = tree->root, *y = &NIL, *z = RBT_node_init(data);
 
     while (x != &NIL) {
         y = x;  // vamos a esq. ou a dir. conforme a chave for menor ou maior
@@ -50,8 +62,8 @@ void RBT_tree_insert(RBTree* tree, int data) {
     RBT_tree_insert_fixup(tree, z);  // manter as propriedades da árvore
 }
 
-void RBT_tree_insert_fixup(RBTree* tree, RBNode* z) {
-    RBNode* y = &NIL;  // tio de z
+void RBT_tree_insert_fixup(RBT_Tree* tree, RBT_Node* z) {
+    RBT_Node* y = &NIL;  // tio de z
     while (z->parent->color == RED) {
         if (RBT_is_left_child(z->parent)) {
             y = z->parent->parent->right;  // tio da direita
@@ -94,9 +106,9 @@ void RBT_tree_insert_fixup(RBTree* tree, RBNode* z) {
 
 /* ------------------------------- Rotações ------------------------------- */
 
-void RBT_tree_left_rotation(RBTree* tree, RBNode* x) {
-    RBNode* y = x->right;
-    x->right  = y->left;    // subárvore de y substitui a subárvore de x
+void RBT_tree_left_rotation(RBT_Tree* tree, RBT_Node* x) {
+    RBT_Node* y = x->right;
+    x->right    = y->left;  // subárvore de y substitui a subárvore de x
     if (y->left != &NIL)    // subárvore não vazia
         y->left->parent = x;
     y->parent = x->parent;  // ponteiro pai de y passa a ser o pai de x
@@ -110,9 +122,9 @@ void RBT_tree_left_rotation(RBTree* tree, RBNode* x) {
     x->parent = y;
 }
 
-void RBT_tree_right_rotation(RBTree* tree, RBNode* x) {
-    RBNode* y = x->left;
-    x->left   = y->right;
+void RBT_tree_right_rotation(RBT_Tree* tree, RBT_Node* x) {
+    RBT_Node* y = x->left;
+    x->left     = y->right;
     if (y->right != &NIL)
         y->right->parent = x;
     y->parent = x->parent;
@@ -128,11 +140,11 @@ void RBT_tree_right_rotation(RBTree* tree, RBNode* x) {
 
 /* ------------------------------------------------------------------------ */
 
-void RBT_tree_in_order(RBTree* tree) {
+void RBT_tree_in_order(RBT_Tree* tree) {
     RBT_tree_in_order_helper(tree->root);
 }
 
-void RBT_tree_in_order_helper(RBNode* node) {
+void RBT_tree_in_order_helper(RBT_Node* node) {
     if (node == &NIL)
         return;
     RBT_tree_in_order_helper(node->left);
@@ -143,33 +155,33 @@ void RBT_tree_in_order_helper(RBNode* node) {
 /* ------------------------------------------------------------------------ */
 
 // código fica mais legível SEM essas funções e sim node->color == RED, etc.
-// bool is_red(RBNode* node) {
+// bool is_red(RBT_Node* node) {
 //     return node->color == RED;
 // }
-// bool is_black(RBNode* node) {
+// bool is_black(RBT_Node* node) {
 //     return node->color == BLACK;
 // }
 
 /* ------------------------------------------------------------------------ */
 
-bool RBT_is_left_child(RBNode* node) {
+bool RBT_is_left_child(RBT_Node* node) {
     return node == node->parent->left;
 }
-bool RBT_is_right_child(RBNode* node) {
+bool RBT_is_right_child(RBT_Node* node) {
     return node == node->parent->right;
 }
 
 /* ------------------------------------------------------------------------ */
 
-void RBT_tree_color_count(RBTree* tree, int* red_count, int* black_count) {
+void RBT_tree_color_count(RBT_Tree* tree, int* red_count, int* black_count) {
     *red_count   = 0;
     *black_count = 0;
     RBT_tree_color_count_helper(tree->root, red_count, black_count);
 }
 
-void RBT_tree_color_count_helper(RBNode* node,
-                                 int*    red_count,
-                                 int*    black_count) {
+void RBT_tree_color_count_helper(RBT_Node* node,
+                                 int*      red_count,
+                                 int*      black_count) {
     if (node == &NIL)
         return;
 
@@ -183,7 +195,7 @@ void RBT_tree_color_count_helper(RBNode* node,
 
 /* ------------------------------------------------------------------------ */
 
-void solution(RBTree* tree) {
+void solution(RBT_Tree* tree) {
     printf("Percurso em ordem: ");
     RBT_tree_in_order(tree);
     printf("\n");
@@ -201,11 +213,11 @@ void solution(RBTree* tree) {
 
 /* ------------------------------------------------------------------------ */
 
-int RBT_tree_height(RBTree* tree) {
+int RBT_tree_height(RBT_Tree* tree) {
     return RBT_tree_height_helper(tree->root);
 }
 
-int RBT_tree_height_helper(RBNode* node) {
+int RBT_tree_height_helper(RBT_Node* node) {
     if (node == &NIL)
         return -1;  // tava retornando 0 antes mas isso dava 1 a mais
     int left_h  = RBT_tree_height_helper(node->left);

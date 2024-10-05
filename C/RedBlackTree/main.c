@@ -1,8 +1,8 @@
+#include <stdio.h>
 #include "red_black.h"
-#include "stdio.h"
 
 int main() {
-    RBTree* tree = RBT_tree_init();
+    RBT_Tree* tree = RBT_tree_init();
 
     int input;
     while (scanf("%d", &input) == 1)

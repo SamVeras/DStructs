@@ -1,3 +1,6 @@
+// TO-DO: funções adicionais e declarar e implementar funções pra limpeza de
+// memória.
+
 /* Referência:
  Introduction to Algorithms 4th edition, Cormen, Leiserson, Rivest, Stein*/
 
@@ -9,113 +12,117 @@
 5. For each node, all simple paths from the node to descendant leaves contain
 the same number of black nodes. */
 
-#include "stdbool.h"
+#include <stdbool.h>
 
-typedef enum Color { RED, BLACK } Color;  // era isso ou usar bool ou sla
+typedef enum RBT_Color {
+    BLACK,    // 0
+    RED       // 1
+} RBT_Color;  // era isso ou usar bool ou sla
 /* ------------------------------------------------------------------------ */
 /* Nó (node) da árvore rubro-negra
 data: valor associado ao nó
 left, right = nós filhos da esquerda e direita, respectivamente
 parent: ponteiro para o nó pai
 color: cor do nó (RED ou BLACK) */
-typedef struct RBNode {
-    int            data;
-    struct RBNode *left, *right, *parent;
-    Color          color;
-} RBNode;
+typedef struct RBT_Node {
+    int              data;
+    struct RBT_Node *left, *right, *parent;
+    RBT_Color        color;
+} RBT_Node;
 /* ------------------------------------------------------------------------ */
 /* Árvore rubro-negra.
 root: ponteiro para nó raíz da árvore.*/
-typedef struct RBTree {
-    RBNode* root;
-} RBTree;
+typedef struct RBT_Tree {
+    RBT_Node* root;
+} RBT_Tree;
 /* ------------------------------------------------------------------------ */
 /* Inicialização de node.
 data: valor a ser associado ao nó.
 Retorno: ponteiro para o novo nó. */
-RBNode* RBT_node_init(int data);
+RBT_Node* RBT_node_init(int data);
 /* ------------------------------------------------------------------------ */
 /* Inicialização de tree.
 Retorna ponteiro para a arvore rubro-negra inicializada. */
-RBTree* RBT_tree_init();
+RBT_Tree* RBT_tree_init();
 /* ------------------------------------------------------------------------ */
 /* Inserção de dados na árvore.
 tree: arvore que receberá o novo nó.
 data: valor a ser inserido.
 Sem retorno. */
-void RBT_tree_insert(RBTree* tree, int data);
+void RBT_tree_insert(RBT_Tree* tree, int data);
 /* ------------------------------------------------------------------------ */
 /* Percorrer a árvore em ordem e exibir seus dados.
-tree: arvore a ser percorrida. */
-void RBT_tree_in_order(RBTree* tree);
+tree: arvore a ser percorrida.
+Sem retorno. */
+void RBT_tree_in_order(RBT_Tree* tree);
 /* ------------------------------------------------------------------------ */
 /* Contagem de cores da árvore.
 tree: arvore a ser percorrida.
 red_count, black_count: contadores de cores, passados por referência.
 Sem retorno. */
-void RBT_tree_color_count(RBTree* tree, int* red_count, int* black_count);
+void RBT_tree_color_count(RBT_Tree* tree, int* red_count, int* black_count);
 /* ------------------------------------------------------------------------ */
 /* Calcular a altura da árvore, a percorrendo.
 tree: arvore a ser percorrida.
 Retorno: altura da árvore */
-int RBT_tree_height(RBTree* tree);
+int RBT_tree_height(RBT_Tree* tree);
 /* ------------------------------------------------------------------------ */
 /* Solução da prova, formatada de maneira adequada:
 tree: arvore a ser percorrida.
 Sem retorn.*/
-void solution(RBTree* tree);
+void solution(RBT_Tree* tree);
 /* ------------------------------------------------------------------------ */
 /* Correção da árvore
 tree: arvore a ser corrigida.
 z: nó a ser corrigido.
 Sem retorno.
 */
-void RBT_tree_insert_fixup(RBTree* tree, RBNode* z);
+void RBT_tree_insert_fixup(RBT_Tree* tree, RBT_Node* z);
 /* ------------------------------------------------------------------------ */
 /* Rotação à esquerda
 tree: arvore a ser percorrida.
 x: nó a ser corrigido.
 Sem retorno.
 */
-void RBT_tree_left_rotation(RBTree* tree, RBNode* x);
+void RBT_tree_left_rotation(RBT_Tree* tree, RBT_Node* x);
 /* ------------------------------------------------------------------------ */
 /* Rotação à direita
 tree: arvore a ser percorrida.
 x: nó a ser corrigido.
 Sem retorno.
 */
-void RBT_tree_right_rotation(RBTree* tree, RBNode* x);
+void RBT_tree_right_rotation(RBT_Tree* tree, RBT_Node* x);
 /* ------------------------------------------------------------------------ */
 /* -------------------------- Funções auxiliares -------------------------- */
 
 /* Função auxiliar para percorrer a árvore em ordem.
 node: nó a partir do qual a função vai percorrer.
 Sem retorno.*/
-void RBT_tree_in_order_helper(RBNode* node);
+void RBT_tree_in_order_helper(RBT_Node* node);
 /* ------------------------------------------------------------------------ */
-// bool is_red(RBNode* node);
-// bool is_black(RBNode* node);
+// bool is_red(RBT_Node* node);
+// bool is_black(RBT_Node* node);
 /* ------------------------------------------------------------------------ */
 /* Verificar se nó é filho da esquerda.
 node: nó a ser verificado.
 Retorno: true se o nó for filho da esquerda, false caso contrário. */
-bool RBT_is_left_child(RBNode* node);
+bool RBT_is_left_child(RBT_Node* node);
 /* ------------------------------------------------------------------------ */
 /* Verificar se nó é filho da direita.
 node: nó a ser verificado.
 Retorno: true se o nó for filho da direita, false caso contrário. */
-bool RBT_is_right_child(RBNode* node);
+bool RBT_is_right_child(RBT_Node* node);
 /* ------------------------------------------------------------------------ */
 /* Função auxiliar para contagem de cores.
 node: nó a partir do qual a função vai percorrer.
 red_count, black_count: contadores de cores, passados por referência.
 Sem retorno. */
-void RBT_tree_color_count_helper(RBNode* node,
-                                 int*    red_count,
-                                 int*    black_count);
+void RBT_tree_color_count_helper(RBT_Node* node,
+                                 int*      red_count,
+                                 int*      black_count);
 /* ------------------------------------------------------------------------ */
 /* Função auxiliar para calcular a altura da árvore.
 node: nó a partir do qual a função vai percorrer.
 Retorno: altura da árvore neste ponto. */
-int RBT_tree_height_helper(RBNode* node);
+int RBT_tree_height_helper(RBT_Node* node);
 /* ------------------------------------------------------------------------ */
