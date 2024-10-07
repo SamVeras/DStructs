@@ -25,5 +25,7 @@ int main() {
         TT_tree_search_prefix(tree, prefix);
     }
 
+    TT_tree_destroy(tree);  // limpar
+
     return 0;
 }

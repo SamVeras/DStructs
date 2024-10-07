@@ -9,5 +9,7 @@ int main() {
         RBT_tree_insert(tree, input);
 
     solution(tree);
+
+    RBT_tree_destroy(tree);
     return 0;
 }

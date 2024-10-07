@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* ------------------------------------------------------------------------ */
+
 TT_Node* TT_node_init() {
     TT_Node* node = malloc(sizeof(TT_Node));
 
@@ -17,6 +19,7 @@ TT_Node* TT_node_init() {
     node->end = false;
     return node;
 }
+/* ------------------------------------------------------------------------ */
 
 TT_Tree* TT_tree_init() {
     TT_Tree* tree = malloc(sizeof(TT_Tree));
@@ -29,6 +32,7 @@ TT_Tree* TT_tree_init() {
     tree->root = TT_node_init();
     return tree;
 }
+/* ------------------------------------------------------------------------ */
 
 void TT_tree_insert(TT_Tree* tree, const char* word) {
     TT_Node* x = tree->root;
@@ -43,6 +47,7 @@ void TT_tree_insert(TT_Tree* tree, const char* word) {
     }
     x->end = true;  // chegamos ao final da palavra
 }
+/* ------------------------------------------------------------------------ */
 
 void TT_tree_search_prefix(TT_Tree* tree, const char* prefix) {
     TT_Node* x = tree->root;
@@ -82,3 +87,18 @@ void TT_tree_search_prefix(TT_Tree* tree, const char* prefix) {
         }
     }
 }
+/* ------------------------------------------------------------------------ */
+
+void TT_tree_destroy(TT_Tree* tree) {
+    TT_node_destroy(tree->root);
+    free(tree);
+}
+/* ------------------------------------------------------------------------ */
+
+void TT_node_destroy(TT_Node* node) {
+    for (int i = 0; i < TT_MAX_CHARS; i++)
+        if (node->children[i] != NULL)
+            TT_node_destroy(node->children[i]);
+    free(node);
+}
+/* ------------------------------------------------------------------------ */

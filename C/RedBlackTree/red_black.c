@@ -22,6 +22,7 @@ RBT_Node* RBT_node_init(int data) {
     new_node->color  = RED;
     return new_node;
 }
+/* ------------------------------------------------------------------------ */
 
 RBT_Tree* RBT_tree_init() {
     RBT_Tree* new_tree = malloc(sizeof(RBT_Tree));
@@ -34,7 +35,6 @@ RBT_Tree* RBT_tree_init() {
     new_tree->root = &NIL;
     return new_tree;
 }
-
 /* ------------------------------- Inserção ------------------------------- */
 
 void RBT_tree_insert(RBT_Tree* tree, int data) {
@@ -61,6 +61,7 @@ void RBT_tree_insert(RBT_Tree* tree, int data) {
     z->color = RED;                  // nó começa vermelho
     RBT_tree_insert_fixup(tree, z);  // manter as propriedades da árvore
 }
+/* ------------------------------------------------------------------------ */
 
 void RBT_tree_insert_fixup(RBT_Tree* tree, RBT_Node* z) {
     RBT_Node* y = &NIL;  // tio de z
@@ -121,6 +122,7 @@ void RBT_tree_left_rotation(RBT_Tree* tree, RBT_Node* x) {
     y->left   = x;
     x->parent = y;
 }
+/* ------------------------------------------------------------------------ */
 
 void RBT_tree_right_rotation(RBT_Tree* tree, RBT_Node* x) {
     RBT_Node* y = x->left;
@@ -137,12 +139,12 @@ void RBT_tree_right_rotation(RBT_Tree* tree, RBT_Node* x) {
     y->right  = x;
     x->parent = y;
 }
-
 /* ------------------------------------------------------------------------ */
 
 void RBT_tree_in_order(RBT_Tree* tree) {
     RBT_tree_in_order_helper(tree->root);
 }
+/* ------------------------------------------------------------------------ */
 
 void RBT_tree_in_order_helper(RBT_Node* node) {
     if (node == &NIL)
@@ -151,7 +153,6 @@ void RBT_tree_in_order_helper(RBT_Node* node) {
     printf("%d ", node->data);
     RBT_tree_in_order_helper(node->right);
 }
-
 /* ------------------------------------------------------------------------ */
 
 // código fica mais legível SEM essas funções e sim node->color == RED, etc.
@@ -167,10 +168,11 @@ void RBT_tree_in_order_helper(RBT_Node* node) {
 bool RBT_is_left_child(RBT_Node* node) {
     return node == node->parent->left;
 }
+/* ------------------------------------------------------------------------ */
+
 bool RBT_is_right_child(RBT_Node* node) {
     return node == node->parent->right;
 }
-
 /* ------------------------------------------------------------------------ */
 
 void RBT_tree_color_count(RBT_Tree* tree, int* red_count, int* black_count) {
@@ -178,6 +180,7 @@ void RBT_tree_color_count(RBT_Tree* tree, int* red_count, int* black_count) {
     *black_count = 0;
     RBT_tree_color_count_helper(tree->root, red_count, black_count);
 }
+/* ------------------------------------------------------------------------ */
 
 void RBT_tree_color_count_helper(RBT_Node* node,
                                  int*      red_count,
@@ -192,7 +195,6 @@ void RBT_tree_color_count_helper(RBT_Node* node,
     RBT_tree_color_count_helper(node->left, red_count, black_count);
     RBT_tree_color_count_helper(node->right, red_count, black_count);
 }
-
 /* ------------------------------------------------------------------------ */
 
 void solution(RBT_Tree* tree) {
@@ -210,12 +212,12 @@ void solution(RBT_Tree* tree) {
     printf("Quantidade de nós vermelhos: %d\n", qtd_vermelho);
     printf("Quantidade de nós pretos: %d\n", qtd_preto);
 }
-
 /* ------------------------------------------------------------------------ */
 
 int RBT_tree_height(RBT_Tree* tree) {
     return RBT_tree_height_helper(tree->root);
 }
+/* ------------------------------------------------------------------------ */
 
 int RBT_tree_height_helper(RBT_Node* node) {
     if (node == &NIL)
@@ -225,3 +227,19 @@ int RBT_tree_height_helper(RBT_Node* node) {
     // calcular a altura recursivamente, usando o maior tamanho de cada lado
     return left_h > right_h ? left_h + 1 : right_h + 1;
 }
+/* ------------------------------------------------------------------------ */
+
+void RBT_tree_destroy(RBT_Tree* tree) {
+    RBT_node_destroy(tree->root);
+    free(tree);
+}
+/* ------------------------------------------------------------------------ */
+
+void RBT_node_destroy(RBT_Node* node) {
+    if (node == &NIL)
+        return;
+    RBT_node_destroy(node->left);
+    RBT_node_destroy(node->right);
+    free(node);
+}
+/* ------------------------------------------------------------------------ */

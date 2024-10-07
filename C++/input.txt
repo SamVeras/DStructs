@@ -1,1 +1,11 @@
-12 5 15 3 10 13 17 4 7 11 14 6 8
+insere 10
+insere 20
+insere 5
+insere 6
+insere 13
+insere 30
+insere 8
+insere 18
+percorre
+busca 12
+busca 13
